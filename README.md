@@ -52,6 +52,7 @@ Chốt của cả bài: nhóm ngủ ít có điểm thấp hơn **2.59 điểm**
 **nhiều hơn gấp đôi**. Không thể kết luận thiếu ngủ làm điểm thấp.
 
 ## Lưu ý kỹ thuật
+- Phần nhiệm vụ **không in sẵn công thức**. Học sinh làm sai ô nào thì ô đó tô đỏ và chỉ ô đó hiện gợi ý công thức; câu chọn sai cũng tô đỏ riêng.
 - Website không cần backend. Họ tên và lớp lưu trong `localStorage` (khóa `excelCond3Student`).
 - PDF tạo từ ảnh minh chứng bằng jsPDF tải từ CDN; nếu mạng chặn CDN, học sinh vẫn tải được bản PNG.
 - Ô nhập kết quả chấp nhận cả dấu phẩy và dấu chấm thập phân, có hoặc không có dấu phân cách hàng nghìn.
