@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Biến thứ ba – Đếm và tính có điều kiện</title>
+<meta name="description" content="Bài học tương tác lớp 8: COUNTIF, AVERAGEIF, COUNTIFS, AVERAGEIFS và cách đọc một khác biệt giữa hai nhóm.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--bg:#f5f7fb;--panel:#fff;--text:#172033;--muted:#667085;--line:#e4e7ec;--blue:#315efb;--blue2:#eef3ff;--green:#0f9d7a;--green2:#eaf9f5;--amber:#b54708;--amber2:#fff7ed;--red:#b42318;--shadow:0 14px 40px rgba(16,24,40,.07);--r:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#eef3ff 0,#fafbff 290px,var(--bg) 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans",sans-serif}
+button,input,select{font:inherit}
+.wrap{width:min(1060px,92vw);margin:auto}
+.top{position:sticky;top:0;z-index:30;background:rgba(245,247,251,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topin{padding:10px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900}
+.logo{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--blue),#728dff)}
+.pbar{height:8px;background:#e7eaf1;border-radius:99px;overflow:hidden;margin-top:9px}
+.pfill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:.3s}
+.pmeta{display:flex;justify-content:space-between;gap:10px;margin-top:5px;color:var(--muted);font-size:12px}
+.hero{padding:28px 0 8px}
+.eyebrow{display:inline-block;padding:7px 11px;border-radius:99px;background:var(--blue2);color:#2749c7;border:1px solid #d7e0ff;font-size:13px;font-weight:850}
+h1{font-size:clamp(34px,5vw,52px);line-height:1.08;letter-spacing:-.04em;margin:14px 0 8px}
+.lead{font-size:17px;line-height:1.6;color:#475467;max-width:800px}
+.section{display:none;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px;margin:18px 0}
+.section.active{display:block;animation:in .22s ease}
+@keyframes in{from{opacity:.4;transform:translateY(7px)}to{opacity:1;transform:none}}
+.head{display:flex;gap:13px;align-items:flex-start;margin-bottom:18px}
+.badge{width:44px;height:44px;display:grid;place-items:center;flex:0 0 auto;border-radius:14px;background:var(--blue2);color:var(--blue);font-weight:950}
+.section h2{font-size:27px;letter-spacing:-.02em;margin:0}
+.section .sub{margin:5px 0 0;color:#667085;line-height:1.55}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:17px;padding:17px;background:#fff}
+.card h3{font-size:17px;margin:0 0 7px}
+.card p{font-size:14px;margin:0;color:var(--muted);line-height:1.6}
+.callout{border:1px solid #c9eadf;border-radius:15px;padding:14px 16px;background:#edf9f5;color:#175c49;line-height:1.6;margin-top:14px}
+.callout.warn{background:var(--amber2);border-color:#fed7aa;color:#8a3c05}
+.callout.blue{background:var(--blue2);border-color:#d7e0ff;color:#23408f}
+.formGrid{display:grid;grid-template-columns:1fr 240px;gap:14px;margin:18px 0}
+label{display:block;font-size:13px;font-weight:850;color:#344054;margin-bottom:7px}
+input,select{width:100%;border:1px solid #cfd5df;border-radius:12px;padding:12px 13px;background:#fff;outline:0}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(49,94,251,.1)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:0;border-radius:13px;padding:12px 17px;font-weight:850;cursor:pointer}
+.btnPrimary{background:var(--blue);color:#fff}
+.btnSecondary{background:#eef2f7;color:#344054}
+.btnGreen{background:var(--green);color:#fff}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.tiny{font-size:12px;color:var(--muted)}
+.hidden{display:none!important}
+.fx{display:inline-block;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;background:#f2f4f8;border:1px solid #e2e6ee;border-radius:8px;padding:2px 7px;font-size:13px;font-weight:700}
+.syntax{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:12px;font-size:15px;font-weight:700;overflow-x:auto}
+.syntax .rng{color:#1e7b45}
+.syntax .cond{color:#b42318}
+.syntax .val{color:#178b8b}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:9px;font-size:12.5px;color:var(--muted)}
+.legend b{font-weight:850}
+.activity{margin-top:18px;border:1px solid var(--line);background:#fbfcff;border-radius:17px;padding:16px}
+.activity h3{margin:0 0 4px;font-size:17px}
+.activity .ahint{margin:0 0 12px;font-size:13px;color:var(--muted);line-height:1.55}
+.feedback{min-height:20px;margin-top:10px;font-size:14px;font-weight:800}
+.ok{color:#067647}
+.bad{color:var(--red)}
+.matchGrid{display:grid;grid-template-columns:minmax(190px,1fr) 1fr;gap:10px;align-items:center}
+.matchGrid .term{font-weight:850;font-size:14px}
+.taskGrid{display:grid;gap:12px}
+.task{display:grid;grid-template-columns:1fr 190px;gap:12px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 14px}
+.task .q{font-size:14px;line-height:1.55}
+.task .q b{display:block;margin-bottom:3px}
+.task input{text-align:right;font-family:ui-monospace,Consolas,monospace;font-weight:800}
+.task input.good{border-color:var(--green);box-shadow:0 0 0 4px rgba(15,157,122,.12)}
+.task input.wrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
+.hintBtn{background:none;border:0;color:var(--blue);font-size:12px;font-weight:850;cursor:pointer;padding:6px 0}
+.hintBox{font-size:13px;color:#475467;background:#f8fafc;border-radius:11px;padding:10px 12px;margin-top:8px;line-height:1.55}
+.dataWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;margin-top:14px}
+.dataTable{width:100%;border-collapse:collapse;min-width:560px;font-size:13.5px}
+.dataTable th,.dataTable td{padding:10px 12px;border-bottom:1px solid #eef0f3;text-align:right}
+.dataTable th:first-child,.dataTable td:first-child{text-align:left}
+.dataTable th{background:#f8fafc;font-size:12.5px;color:#475467}
+.dataTable tr:last-child td{border-bottom:0}
+.hlRow{background:#effcf6}
+.hlSmall{background:#fff1bd;font-weight:900}
+.qOpt{display:block;width:100%;text-align:left;border:1px solid #cfd5df;background:#fff;border-radius:13px;padding:12px 14px;margin-bottom:9px;cursor:pointer;font-size:14px;font-weight:700}
+.qOpt.selected{border-color:var(--blue);background:var(--blue2)}
+.qOpt.right{border-color:var(--green);background:var(--green2)}
+.qOpt.wrongPick{border-color:var(--red);background:#fef3f2}
+.quizHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.qnum{font-weight:900;color:var(--blue)}
+.qtext{font-size:18px;font-weight:850;line-height:1.45;margin:0 0 14px}
+.answerNote{margin-top:7px;font-weight:700;color:#475467;font-size:13px}
+.score{font-size:46px;font-weight:950;text-align:center;margin:16px 0;color:var(--green)}
+.review{display:grid;gap:9px;margin:14px 0}
+.reviewItem{border:1px solid var(--line);border-radius:13px;padding:11px 13px;font-size:13px;line-height:1.55}
+.reviewItem.good{background:var(--green2);border-color:#c9eadf}
+.reviewItem.miss{background:#fef3f2;border-color:#fecdca}
+.reviewItem strong{display:block;margin-bottom:3px}
+.cert{margin-top:16px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cert canvas{width:100%;display:block}
+footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:760px){.grid2,.grid3,.formGrid,.matchGrid,.task{grid-template-columns:1fr}.section{padding:20px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap topin">
+  <div class="brand"><div class="logo">▦</div><div>Biến thứ ba · Đếm và tính có điều kiện</div></div>
+  <div class="pbar"><div class="pfill" id="pfill"></div></div>
+  <div class="pmeta"><span id="plabel">Bắt đầu</span><span id="miniStudent">Chưa nhập thông tin</span></div>
+</div></div>
+
+<main class="wrap">
+<section class="hero">
+  <span class="eyebrow">TIN HỌC 8 · BÀI 3</span>
+  <h1>Biến thứ ba</h1>
+  <p class="lead">5 chặng thử thách: dùng COUNTIF và AVERAGEIF để so sánh giữa các nhóm — rồi phát hiện vì sao một khác biệt rất rõ ràng vẫn chưa đủ để kết luận.</p>
+</section>
+
+<!-- ============ BẮT ĐẦU ============ -->
+<section class="section active" id="step0">
+  <div class="head"><div class="badge">0</div><div><h2>Bắt đầu</h2><p class="sub">Nhập thông tin để hệ thống ghi nhận minh chứng hoàn thành.</p></div></div>
+
+  <div class="callout blue">
+    <strong>Chuẩn bị</strong><br>
+    Mở lại đúng file của Bài 2: <span class="fx">LSTS_KhaoSat_K8_2026_AnDanh_Cleaned.xlsx</span>, sheet <span class="fx">Clean_Data</span>.
+    Bài 3 dùng chung bộ dữ liệu đó, không có file mới.<br>
+    Vùng dữ liệu vẫn là <span class="fx">hàng 3 → hàng 300</span> (298 phản hồi). Các cột sẽ dùng hôm nay:
+    <span class="fx">B</span> giờ ngủ · <span class="fx">C</span> giờ thiết bị · <span class="fx">E</span> giờ tự học ·
+    <span class="fx">H</span> điểm TB lớp 7 · <span class="fx">I</span> phương tiện · <span class="fx">J</span> mạng xã hội ·
+    <span class="fx">K</span> mức tập trung.
+  </div>
+
+  <div class="formGrid">
+    <div><label for="studentName">Họ và tên</label><input id="studentName" autocomplete="name" placeholder="Ví dụ: Nguyễn Văn An"></div>
+    <div><label for="studentClass">Lớp</label><select id="studentClass"><option value="">Chọn lớp</option><option>8A1</option><option>8A2</option><option>8A3</option><option>8A4</option><option>8A5</option><option>8A6</option><option>8A7</option><option>8A8</option><option>8A9</option><option>8A10</option></select></div>
+  </div>
+  <div id="startError" class="feedback"></div>
+  <div class="btnrow"><button class="btn btnPrimary" id="startBtn">Bắt đầu →</button></div>
+</section>
+
+<!-- ============ CHẶNG 1 — COUNTIF ============ -->
+<section class="section" id="step1">
+  <div class="head"><div class="badge">1</div><div><h2>COUNTIF — đếm có điều kiện</h2><p class="sub">Không đếm cả cột nữa, mà chỉ đếm những bạn thoả một điều kiện.</p></div></div>
+
+  <div class="grid2">
+    <div class="card"><h3>COUNT — đếm tất cả</h3><p><span class="fx">=COUNT(B3:B300)</span><br>Trả lời: “có bao nhiêu bạn trả lời câu hỏi này?”</p></div>
+    <div class="card"><h3>COUNTIF — đếm có điều kiện</h3><p><span class="fx">=COUNTIF(B3:B300;"&lt;6")</span><br>Trả lời: “có bao nhiêu bạn ngủ dưới 6 giờ mỗi đêm?”</p></div>
+  </div>
+
+  <div class="syntax">=COUNTIF( <span class="rng">B3:B300</span> ; <span class="cond">"&lt;6"</span> )</div>
+  <div class="legend">
+    <span><b style="color:#1e7b45">vùng xét điều kiện</b> — cột chứa dữ liệu cần lọc</span>
+    <span><b style="color:#b42318">điều kiện</b> — luôn nằm trong dấu nháy kép</span>
+  </div>
+
+  <div class="callout warn">
+    <strong>Hai kiểu điều kiện</strong><br>
+    <strong>Điều kiện số:</strong> <span class="fx">"&lt;6"</span> · <span class="fx">"&gt;=8"</span> — dấu so sánh viết liền, cả cụm nằm trong nháy kép.<br>
+    <strong>Điều kiện chữ:</strong> <span class="fx">"TikTok"</span> · <span class="fx">"Đi bộ"</span> — gõ đúng y hệt nội dung trong ô, kể cả dấu tiếng Việt.<br>
+    Gõ sai một dấu thì Excel trả về 0 mà không báo lỗi — giống bẫy COUNT ở Bài 2.
+  </div>
+
+  <div class="activity">
+    <h3>Thử thách 1 · Đếm bốn nhóm</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Gõ công thức vào một ô trống bất kỳ, ví dụ ô N3.</p>
+    <div class="taskGrid" id="task1">
+      <div class="task"><div class="q"><b>Bao nhiêu bạn ngủ dưới 6 giờ mỗi đêm?</b><span class="fx">=COUNTIF(B3:B300;"&lt;6")</span></div><input data-ans="30" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn ngủ từ 8 giờ trở lên?</b><span class="fx">=COUNTIF(B3:B300;"&gt;=8")</span></div><input data-ans="72" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn dùng TikTok nhiều nhất?</b><span class="fx">=COUNTIF(J3:J300;"TikTok")</span></div><input data-ans="100" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn đi bộ đến trường?</b><span class="fx">=COUNTIF(I3:I300;"Đi bộ")</span></div><input data-ans="13" data-tol="0" placeholder="kết quả"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Vì sao điều kiện số cũng phải nằm trong dấu nháy kép?</div>
+      <select id="why1" data-key="b"><option value="">Chọn...</option><option value="a">Vì Excel không đọc được số nếu không có nháy kép</option><option value="b">Vì cả cụm “dấu so sánh + số” được xem như một chuỗi mô tả điều kiện</option><option value="c">Vì nháy kép giúp công thức chạy nhanh hơn</option><option value="d">Không bắt buộc, viết kiểu nào cũng được</option></select>
+    </div>
+    <button class="hintBtn" data-hint="hint1">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint1">Kết quả ra 0 nghĩa là điều kiện chữ chưa khớp. Cách chắc chắn nhất: bấm vào một ô trong cột đó, copy nguyên văn nội dung rồi dán vào giữa hai dấu nháy.</div>
+    <div class="feedback" id="fb1"></div>
+    <div class="btnrow"><button class="btn btnPrimary" id="action1">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 2 — AVERAGEIF ============ -->
+<section class="section" id="step2">
+  <div class="head"><div class="badge">2</div><div><h2>AVERAGEIF — trung bình có điều kiện</h2><p class="sub">Hàm có ba đối số, và đây là chỗ cả lớp hay nhầm nhất.</p></div></div>
+
+  <div class="syntax">=AVERAGEIF( <span class="rng">B3:B300</span> ; <span class="cond">"&lt;6"</span> ; <span class="val">H3:H300</span> )</div>
+  <div class="legend">
+    <span><b style="color:#1e7b45">vùng xét điều kiện</b> — cột Giờ ngủ</span>
+    <span><b style="color:#b42318">điều kiện</b></span>
+    <span><b style="color:#178b8b">vùng lấy giá trị</b> — cột Điểm TB, nơi lấy số để tính trung bình</span>
+  </div>
+
+  <div class="callout">
+    <strong>Vì sao AVERAGEIF cần ba vùng còn COUNTIF chỉ cần hai?</strong><br>
+    Vì <em>đếm</em> thì đếm ngay trên chính cột đang xét điều kiện. Còn <em>tính trung bình</em> thì xét điều kiện ở cột này
+    nhưng lấy số để tính ở một cột khác.
+  </div>
+
+  <div class="activity">
+    <h3>Thử thách 2 · Điểm trung bình của từng nhóm</h3>
+    <p class="ahint">Vẫn trên sheet <span class="fx">Clean_Data</span>. Nhập kết quả với 2 chữ số thập phân.</p>
+    <div class="taskGrid" id="task2">
+      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ dưới 6 giờ</b><span class="fx">=AVERAGEIF(B3:B300;"&lt;6";H3:H300)</span></div><input data-ans="5.77" data-tol="0.03" placeholder="ví dụ: 5.77"></div>
+      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ từ 8 giờ trở lên</b><span class="fx">=AVERAGEIF(B3:B300;"&gt;=8";H3:H300)</span></div><input data-ans="8.36" data-tol="0.03" placeholder="ví dụ: 8.36"></div>
+      <div class="task"><div class="q"><b>Giờ tự học TB của nhóm tự đánh giá tập trung Cao</b><span class="fx">=AVERAGEIF(K3:K300;"Cao";E3:E300)</span></div><input data-ans="6.21" data-tol="0.03" placeholder="ví dụ: 6.21"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Hai nhóm ngủ ít và ngủ đủ chênh nhau bao nhiêu điểm?</div>
+      <select id="why2" data-key="c"><option value="">Chọn...</option><option value="a">Khoảng 0.5 điểm</option><option value="b">Khoảng 1.5 điểm</option><option value="c">Khoảng 2.6 điểm</option><option value="d">Khoảng 4 điểm</option></select>
+
+      <div class="term">Với chênh lệch đó, đã kết luận được “ngủ ít làm điểm thấp” chưa?</div>
+      <select id="why2b" data-key="b"><option value="">Chọn...</option><option value="a">Rồi, chênh lệch quá rõ ràng</option><option value="b">Chưa — cần kiểm tra xem có cách giải thích nào khác không</option><option value="c">Chưa — vì dữ liệu chưa được làm sạch</option><option value="d">Không bao giờ kết luận được gì từ dữ liệu</option></select>
+    </div>
+    <button class="hintBtn" data-hint="hint2">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint2">Nếu Excel báo <span class="fx">#DIV/0!</span> thì thường là em đặt sai thứ tự đối số: vùng xét điều kiện phải đứng trước, vùng lấy giá trị đứng cuối.</div>
+    <div class="feedback" id="fb2"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back2">← Chặng 1</button><button class="btn btnPrimary" id="action2">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 3 — SO SÁNH NHÓM ============ -->
+<section class="section" id="step3">
+  <div class="head"><div class="badge">3</div><div><h2>So sánh nhóm và cỡ mẫu</h2><p class="sub">Một bảng so sánh thiếu cột n là một bảng chưa đọc được.</p></div></div>
+
+  <div class="grid3">
+    <div class="card"><h3>Tên nhóm</h3><p>Nhóm được định nghĩa bằng đúng một điều kiện rõ ràng, ai cũng kiểm tra lại được.</p></div>
+    <div class="card"><h3>Cỡ mẫu n</h3><p>Số bạn trong nhóm, tính bằng COUNTIF. Không có n thì không biết con số kia đáng tin đến đâu.</p></div>
+    <div class="card"><h3>Giá trị so sánh</h3><p>Trung bình của nhóm, tính bằng AVERAGEIF. Làm tròn thống nhất cho mọi nhóm.</p></div>
+  </div>
+
+  <div class="callout blue">
+    <strong>Tỉ lệ phần trăm của một nhóm</strong><br>
+    <span class="fx">=COUNTIF(B3:B300;"&lt;6") / COUNT(B3:B300)</span> rồi định dạng ô kiểu phần trăm.<br>
+    Nhớ chia cho <span class="fx">COUNT</span> chứ không chia cho 298 — vì cột B có 5 ô trống.
+  </div>
+
+  <div class="activity">
+    <h3>Thử thách 3 · Bảng điểm theo phương tiện đến trường</h3>
+    <p class="ahint">Với mỗi nhóm, chạy một <span class="fx">COUNTIF</span> để lấy n và một <span class="fx">AVERAGEIF</span> để lấy điểm TB.</p>
+    <div class="taskGrid" id="task3">
+      <div class="task"><div class="q"><b>Nhóm “Đi bộ” — điểm TB</b><span class="fx">=AVERAGEIF(I3:I300;"Đi bộ";H3:H300)</span></div><input data-ans="7.82" data-tol="0.03" placeholder="ví dụ: 7.82"></div>
+      <div class="task"><div class="q"><b>Nhóm “Đi bộ” — cỡ mẫu n</b><span class="fx">=COUNTIF(I3:I300;"Đi bộ")</span></div><input data-ans="13" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Nhóm “Xe máy (người thân chở)” — điểm TB</b><span class="fx">=AVERAGEIF(I3:I300;"Xe máy (người thân chở)";H3:H300)</span></div><input data-ans="7.17" data-tol="0.03" placeholder="ví dụ: 7.17"></div>
+      <div class="task"><div class="q"><b>Nhóm “Xe máy (người thân chở)” — cỡ mẫu n</b><span class="fx">=COUNTIF(I3:I300;"Xe máy (người thân chở)")</span></div><input data-ans="103" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Tỉ lệ bạn ngủ dưới 6 giờ (nhập số phần trăm, 1 chữ số thập phân)</b><span class="fx">=COUNTIF(B3:B300;"&lt;6")/COUNT(B3:B300)</span></div><input data-ans="10.2" data-tol="0.3" data-ans2="0.102" data-tol2="0.005" placeholder="ví dụ: 10.2"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Nhóm “Đi bộ” có điểm TB cao nhất trong 5 nhóm. Kết luận nào đúng?</div>
+      <select id="why3" data-key="c"><option value="">Chọn...</option><option value="a">Đi bộ đến trường giúp học tốt hơn</option><option value="b">Nên khuyên cả khối chuyển sang đi bộ</option><option value="c">Chưa kết luận được: nhóm này chỉ có 13 bạn, một người đổi điểm là cả thứ hạng đổi theo</option><option value="d">Số liệu chắc chắn bị sai vì nhóm quá nhỏ</option></select>
+    </div>
+    <button class="hintBtn" data-hint="hint3">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint3">Tên nhóm “Xe máy (người thân chở)” rất dài và có dấu ngoặc — copy nguyên văn từ một ô trong cột I rồi dán vào giữa hai dấu nháy, đừng gõ tay.</div>
+    <div class="feedback" id="fb3"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back3">← Chặng 2</button><button class="btn btnPrimary" id="action3">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 4 — COUNTIFS / AVERAGEIFS ============ -->
+<section class="section" id="step4">
+  <div class="head"><div class="badge">4</div><div><h2>COUNTIFS và AVERAGEIFS</h2><p class="sub">Hai điều kiện cùng lúc — và một cái bẫy về thứ tự đối số.</p></div></div>
+
+  <div class="syntax">=COUNTIFS( <span class="rng">B3:B300</span> ; <span class="cond">"&lt;6"</span> ; <span class="rng">H3:H300</span> ; <span class="cond">"&lt;7"</span> )</div>
+  <div class="syntax">=AVERAGEIFS( <span class="val">H3:H300</span> ; <span class="rng">B3:B300</span> ; <span class="cond">"&gt;=8"</span> ; <span class="rng">C3:C300</span> ; <span class="cond">"&lt;2"</span> )</div>
+
+  <div class="callout warn">
+    <strong>Cái bẫy của cả bài</strong><br>
+    <span class="fx">AVERAGEIF</span> để vùng lấy giá trị ở <strong>CUỐI</strong>.<br>
+    <span class="fx">AVERAGEIFS</span> để vùng lấy giá trị ở <strong>ĐẦU</strong>.<br>
+    Không có cách nào khác ngoài nhớ. Sai thứ tự thường ra <span class="fx">#DIV/0!</span> chứ không ra kết quả sai — đó là tin tốt.
+  </div>
+
+  <div class="callout">
+    Các điều kiện được nối bằng <strong>VÀ</strong>: một bạn phải thoả tất cả điều kiện thì mới được tính.
+  </div>
+
+  <div class="activity">
+    <h3>Thử thách 4 · Hai điều kiện cùng lúc</h3>
+    <div class="taskGrid" id="task4">
+      <div class="task"><div class="q"><b>Bao nhiêu bạn vừa ngủ dưới 6 giờ vừa có điểm dưới 7?</b><span class="fx">=COUNTIFS(B3:B300;"&lt;6";H3:H300;"&lt;7")</span></div><input data-ans="26" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn vừa ngủ từ 8 giờ vừa có điểm từ 8?</b><span class="fx">=COUNTIFS(B3:B300;"&gt;=8";H3:H300;"&gt;=8")</span></div><input data-ans="45" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ đủ VÀ ít dùng thiết bị</b><span class="fx">=AVERAGEIFS(H3:H300;B3:B300;"&gt;=8";C3:C300;"&lt;2")</span></div><input data-ans="8.36" data-tol="0.03" placeholder="ví dụ: 8.36"></div>
+      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ ít VÀ nhiều thiết bị</b><span class="fx">=AVERAGEIFS(H3:H300;B3:B300;"&lt;6";C3:C300;"&gt;=4")</span></div><input data-ans="5.79" data-tol="0.03" placeholder="ví dụ: 5.79"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Trong <span class="fx">AVERAGEIFS</span>, vùng lấy giá trị đứng ở đâu?</div>
+      <select id="why4" data-key="a"><option value="">Chọn...</option><option value="a">Đứng đầu tiên, trước mọi cặp vùng – điều kiện</option><option value="b">Đứng cuối cùng, giống AVERAGEIF</option><option value="c">Đứng giữa hai cặp điều kiện</option><option value="d">Không cần ghi, Excel tự hiểu</option></select>
+
+      <div class="term">26 trên 30 bạn ngủ ít có điểm dưới 7. Con số này cho biết gì?</div>
+      <select id="why4b" data-key="b"><option value="">Chọn...</option><option value="a">Chắc chắn thiếu ngủ làm điểm thấp</option><option value="b">Trong nhóm ngủ ít, phần lớn có điểm dưới 7 — nhưng vẫn chưa cho biết nguyên nhân</option><option value="c">30 bạn đó học kém nhất khối</option><option value="d">Ngủ đủ thì chắc chắn được điểm trên 7</option></select>
+    </div>
+    <button class="hintBtn" data-hint="hint4">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint4">Excel báo <span class="fx">#DIV/0!</span> nghĩa là không có bạn nào thoả cả hai điều kiện, hoặc em đặt sai thứ tự đối số của AVERAGEIFS.</div>
+    <div class="feedback" id="fb4"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back4">← Chặng 3</button><button class="btn btnPrimary" id="action4">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ CHẶNG 5 — BIẾN THỨ BA ============ -->
+<section class="section" id="step5">
+  <div class="head"><div class="badge">5</div><div><h2>Biến thứ ba</h2><p class="sub">Chặng quan trọng nhất — và chỉ cần đúng hai công thức.</p></div></div>
+
+  <div class="callout blue">
+    <strong>Việc cần làm</strong><br>
+    Chạy lại đúng hai công thức <span class="fx">AVERAGEIF</span> của chặng 2, nhưng đổi <strong>vùng lấy giá trị</strong>
+    từ cột H (điểm) sang cột <strong>C — Giờ dùng thiết bị điện tử</strong>. Hai đối số đầu giữ nguyên.
+  </div>
+
+  <div class="dataWrap">
+    <table class="dataTable">
+      <thead><tr><th>Nhóm giờ ngủ mỗi đêm</th><th>n</th><th>Điểm TB lớp 7</th><th>Giờ dùng thiết bị</th></tr></thead>
+      <tbody>
+        <tr class="hlRow"><td>Dưới 6 giờ</td><td>30</td><td>5.77</td><td>?</td></tr>
+        <tr><td>6 – 7 giờ</td><td>78</td><td>6.84</td><td>—</td></tr>
+        <tr><td>7 – 8 giờ</td><td>111</td><td>7.32</td><td>—</td></tr>
+        <tr class="hlRow"><td>Từ 8 giờ trở lên</td><td>69</td><td>8.36</td><td>?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="activity">
+    <h3>Thử thách 5 · Điền nốt cột cuối</h3>
+    <div class="taskGrid" id="task5">
+      <div class="task"><div class="q"><b>Giờ dùng thiết bị TB của nhóm ngủ dưới 6 giờ</b><span class="fx">=AVERAGEIF(B3:B300;"&lt;6";C3:C300)</span></div><input data-ans="4.65" data-tol="0.03" placeholder="ví dụ: 4.65"></div>
+      <div class="task"><div class="q"><b>Giờ dùng thiết bị TB của nhóm ngủ từ 8 giờ</b><span class="fx">=AVERAGEIF(B3:B300;"&gt;=8";C3:C300)</span></div><input data-ans="2.26" data-tol="0.03" placeholder="ví dụ: 2.26"></div>
+    </div>
+    <div class="matchGrid" style="margin-top:14px">
+      <div class="term">Hai con số vừa tính cho thấy điều gì?</div>
+      <select id="why5" data-key="b"><option value="">Chọn...</option><option value="a">Nhóm ngủ ít và nhóm ngủ đủ dùng thiết bị như nhau</option><option value="b">Nhóm ngủ ít cũng chính là nhóm dùng thiết bị nhiều hơn gấp đôi</option><option value="c">Dùng thiết bị nhiều làm cho ngủ ít đi</option><option value="d">Hai cột này không liên quan gì đến nhau</option></select>
+
+      <div class="term">Vậy kết luận đúng nhất về “ngủ ít làm điểm thấp” là gì?</div>
+      <select id="why5b" data-key="c"><option value="">Chọn...</option><option value="a">Đúng — dữ liệu đã chứng minh rõ ràng</option><option value="b">Sai — thiếu ngủ không ảnh hưởng gì đến điểm</option><option value="c">Chưa kết luận được: điểm thấp có thể do thiếu ngủ, do dùng thiết bị nhiều, hoặc do cả hai đi cùng một nguyên nhân khác</option><option value="d">Chỉ cần xoá nhóm ngủ ít khỏi dữ liệu là hết vấn đề</option></select>
+    </div>
+    <button class="hintBtn" data-hint="hint5">Cần gợi ý?</button>
+    <div class="hintBox hidden" id="hint5">Copy lại công thức của chặng 2 rồi chỉ sửa đúng một chỗ: <span class="fx">H3:H300</span> thành <span class="fx">C3:C300</span>.</div>
+    <div class="feedback" id="fb5"></div>
+    <div class="btnrow"><button class="btn btnSecondary" id="back5">← Chặng 4</button><button class="btn btnPrimary" id="action5">Kiểm tra</button></div>
+  </div>
+</section>
+
+<!-- ============ KIỂM TRA CUỐI ============ -->
+<section class="section" id="step6">
+  <div class="head"><div class="badge">✓</div><div><h2>Kiểm tra cuối bài</h2><p class="sub">10 câu ngẫu nhiên từ cả 5 chặng. Đạt 8/10 để nhận minh chứng hoàn thành.</p></div></div>
+  <div id="quizArea">
+    <div class="quizHead"><span class="qnum" id="qnum">Câu 1/10</span><span class="tiny">Mỗi câu chỉ trả lời một lần</span></div>
+    <p class="qtext" id="qtext"></p>
+    <div id="qbody"></div>
+    <div class="feedback hidden" id="qfeedback"></div>
+    <div class="btnrow"><button class="btn btnPrimary" id="quizNext" disabled>Kiểm tra</button></div>
+  </div>
+  <div id="resultArea" class="hidden"></div>
+</section>
+
+<footer>Trường THCS &amp; THPT Đinh Thiện Lý · Tin học 8 · Bài 3: Đếm và tính có điều kiện</footer>
+</main>
+
+<script>
+/* ================= STATE ================= */
+const state={step:0,student:{name:'',cls:''},quizSet:[],quizIndex:0,answers:[],quizChecked:false,score:0,code:''};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x};
+
+/* ============ SỐ HỌC SINH GÕ VÀO ============ */
+function candidates(raw){
+  const s=String(raw).trim().replace(/%/g,'');
+  if(!s)return[];
+  const out=[];
+  const push=v=>{const n=Number(v);if(v!==''&&isFinite(n))out.push(n)};
+  push(s.replace(/[\s.,]/g,''));
+  push(s.replace(/\s/g,'').replace(/\./g,'').replace(/,/g,'.'));
+  push(s.replace(/\s/g,'').replace(/,/g,''));
+  return out;
+}
+function nearAns(raw,ans,tol){return candidates(raw).some(n=>Math.abs(n-ans)<=tol)}
+function inputOk(inp){
+  if(nearAns(inp.value,Number(inp.dataset.ans),Number(inp.dataset.tol)))return true;
+  if(inp.dataset.ans2!==undefined&&nearAns(inp.value,Number(inp.dataset.ans2),Number(inp.dataset.tol2||0)))return true;
+  return false;
+}
+function checkTasks(container){
+  const inputs=[...container.querySelectorAll('input')];
+  let wrong=0;
+  inputs.forEach(inp=>{
+    const ok=inputOk(inp);
+    inp.classList.toggle('good',ok);
+    inp.classList.toggle('wrong',!ok);
+    if(!ok)wrong++;
+  });
+  return {ok:wrong===0,wrong};
+}
+function selOk(id){const s=document.getElementById(id);return s.value===s.dataset.key}
+function selsFilled(ids){return ids.every(i=>document.getElementById(i).value)}
+function shuffleSelectOptions(sel){
+  const first=sel.querySelector('option[value=""]');
+  const rest=shuffle([...sel.querySelectorAll('option')].filter(o=>o.value!==''));
+  sel.innerHTML='';if(first)sel.appendChild(first);rest.forEach(o=>sel.appendChild(o));
+}
+
+/* ================= ĐIỀU HƯỚNG ================= */
+function updateProgress(){
+  const pct=Math.round(state.step/6*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('plabel').textContent=state.step===0?'Bắt đầu':state.step===6?'Kiểm tra cuối':`Chặng ${state.step}/5`;
+  document.getElementById('miniStudent').textContent=state.student.name?`${state.student.name} · ${state.student.cls}`:'Chưa nhập thông tin';
+}
+function showStep(n){
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  state.step=n;updateProgress();window.scrollTo({top:0,behavior:'smooth'});
+  try{localStorage.setItem('excelCond3Student',JSON.stringify(state.student))}catch(e){}
+  if(n===6)startQuiz();
+}
+document.getElementById('startBtn').onclick=()=>{
+  const name=document.getElementById('studentName').value.trim().replace(/\s+/g,' ');
+  const cls=document.getElementById('studentClass').value;
+  const fb=document.getElementById('startError');
+  if(name.length<3||!cls){fb.textContent='Nhập Họ và tên và chọn Lớp.';fb.className='feedback bad';return}
+  state.student={name,cls};fb.textContent='';showStep(1);
+};
+[['back2',1],['back3',2],['back4',3],['back5',4]].forEach(([id,n])=>{const b=document.getElementById(id);if(b)b.onclick=()=>showStep(n)});
+document.querySelectorAll('.hintBtn').forEach(b=>{b.onclick=()=>{const box=document.getElementById(b.dataset.hint);box.classList.toggle('hidden');b.textContent=box.classList.contains('hidden')?'Cần gợi ý?':'Ẩn gợi ý'}});
+
+function setStageAction(btnId,fbId,nextStep,validator){
+  const btn=document.getElementById(btnId),fb=document.getElementById(fbId);
+  btn.dataset.passed='0';
+  btn.onclick=()=>{
+    if(btn.dataset.passed==='1'){showStep(nextStep);return}
+    const r=validator();
+    if(r.ok){
+      fb.className='feedback ok';
+      fb.textContent=r.msg||'✓ Chính xác. Chặng tiếp theo đã mở.';
+      btn.dataset.passed='1';btn.textContent='Tiếp tục →';btn.className='btn btnGreen';
+    }else{
+      fb.className='feedback bad';fb.textContent=r.msg;
+    }
+  };
+}
+
+/* ================= 5 CHẶNG ================= */
+setStageAction('action1','fb1',2,()=>{
+  if(!document.getElementById('why1').value)return{ok:false,msg:'Chưa chọn câu giải thích ở cuối.'};
+  const t=checkTasks(document.getElementById('task1'));
+  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Ra 0 nghĩa là điều kiện chữ chưa khớp — copy nguyên văn từ ô trong cột đó.`};
+  if(!selOk('why1'))return{ok:false,msg:'✗ Bốn kết quả đã đúng, phần giải thích chưa đúng. Excel đọc "<6" như một chuỗi mô tả điều kiện.'};
+  return{ok:true,msg:'✓ Chính xác. Nhớ con số 13 của nhóm “Đi bộ” — chặng 3 sẽ quay lại với nó.'};
+});
+
+setStageAction('action2','fb2',3,()=>{
+  if(!selsFilled(['why2','why2b']))return{ok:false,msg:'Chưa chọn đủ hai câu ở cuối.'};
+  const t=checkTasks(document.getElementById('task2'));
+  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Kiểm tra thứ tự ba đối số: vùng xét điều kiện, điều kiện, vùng lấy giá trị.`};
+  if(!selOk('why2'))return{ok:false,msg:'✗ Lấy 8.36 trừ 5.77 xem được bao nhiêu.'};
+  if(!selOk('why2b'))return{ok:false,msg:'✗ Chênh lệch rõ thật, nhưng rõ chưa đồng nghĩa với đã tìm ra nguyên nhân.'};
+  return{ok:true,msg:'✓ Chính xác. Giữ hai con số 5.77 và 8.36 trong đầu — chặng 5 sẽ cần tới.'};
+});
+
+setStageAction('action3','fb3',4,()=>{
+  if(!document.getElementById('why3').value)return{ok:false,msg:'Chưa chọn câu kết luận ở cuối.'};
+  const t=checkTasks(document.getElementById('task3'));
+  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Tên nhóm dài thì copy nguyên văn từ cột I, đừng gõ tay.`};
+  if(!selOk('why3'))return{ok:false,msg:'✗ So cỡ mẫu của hai nhóm: 13 bạn so với 103 bạn.'};
+  return{ok:true,msg:'✓ Chính xác. Một bảng so sánh nhóm mà thiếu cột n thì người đọc không biết tin đến đâu.'};
+});
+
+setStageAction('action4','fb4',5,()=>{
+  if(!selsFilled(['why4','why4b']))return{ok:false,msg:'Chưa chọn đủ hai câu ở cuối.'};
+  const t=checkTasks(document.getElementById('task4'));
+  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Báo #DIV/0! thường là do sai thứ tự đối số của AVERAGEIFS.`};
+  if(!selOk('why4'))return{ok:false,msg:'✗ Xem lại cú pháp AVERAGEIFS ở đầu chặng.'};
+  if(!selOk('why4b'))return{ok:false,msg:'✗ Con số đó mô tả nhóm, nhưng chưa nói được nguyên nhân.'};
+  return{ok:true,msg:'✓ Chính xác. Bằng chứng càng lúc càng mạnh — nhưng vẫn chưa đủ để kết luận. Sang chặng 5.'};
+});
+
+setStageAction('action5','fb5',6,()=>{
+  if(!selsFilled(['why5','why5b']))return{ok:false,msg:'Chưa chọn đủ hai câu kết luận ở cuối.'};
+  const t=checkTasks(document.getElementById('task5'));
+  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Chỉ đổi đối số thứ ba từ H3:H300 sang C3:C300.`};
+  if(!selOk('why5'))return{ok:false,msg:'✗ So 4.65 với 2.26 — gấp mấy lần?'};
+  if(!selOk('why5b'))return{ok:false,msg:'✗ Xem lại: có ít nhất hai cách giải thích cho cùng một khác biệt.'};
+  return{ok:true,msg:'✓ Chính xác. Hai chuyện đi cùng nhau chưa đủ để nói cái này gây ra cái kia. Sẵn sàng cho bài kiểm tra cuối.'};
+});
+
+/* ================= NGÂN HÀNG CÂU HỎI ================= */
+const BANK=[
+ {q:'Hàm nào dùng để đếm số ô thoả một điều kiện?',options:[['COUNTIF','k'],['COUNT','x'],['COUNTA','x'],['AVERAGEIF','x']]},
+ {q:'Trong =COUNTIF(B3:B300;"<6"), phần "<6" là gì?',options:[['Điều kiện để đếm','k'],['Vùng dữ liệu','x'],['Tên hàm','x'],['Kết quả của phép đếm','x']]},
+ {q:'Vì sao điều kiện số trong COUNTIF vẫn phải đặt trong dấu nháy kép?',options:[['Vì cả cụm dấu so sánh và số được xem như một chuỗi mô tả điều kiện','k'],['Vì Excel không đọc được số','x'],['Vì như vậy công thức chạy nhanh hơn','x'],['Không bắt buộc, viết sao cũng được','x']]},
+ {q:'Điều kiện chữ trong COUNTIF gõ sai một dấu thì Excel làm gì?',options:[['Trả về 0 mà không báo lỗi','k'],['Báo lỗi #NAME?','x'],['Tự sửa lại cho đúng','x'],['Đếm toàn bộ cột','x']]},
+ {q:'AVERAGEIF cần mấy đối số?',options:[['Ba','k'],['Hai','x'],['Một','x'],['Bốn','x']]},
+ {q:'Vì sao AVERAGEIF cần nhiều hơn COUNTIF một vùng?',options:[['Vì xét điều kiện ở cột này nhưng lấy giá trị để tính ở cột khác','k'],['Vì tính trung bình khó hơn đếm','x'],['Vì AVERAGEIF phải kiểm tra hai điều kiện','x'],['Vì Excel yêu cầu như vậy, không có lý do','x']]},
+ {q:'Trong =AVERAGEIF(B3:B300;">=8";H3:H300), cột nào được lấy số để tính trung bình?',options:[['Cột H','k'],['Cột B','x'],['Cả hai cột','x'],['Không cột nào','x']]},
+ {q:'Muốn đếm với hai điều kiện cùng lúc thì dùng hàm nào?',options:[['COUNTIFS','k'],['COUNTIF','x'],['COUNTA','x'],['AVERAGEIFS','x']]},
+ {q:'Điểm khác nhau về thứ tự đối số giữa AVERAGEIF và AVERAGEIFS là gì?',options:[['AVERAGEIF để vùng lấy giá trị ở cuối, AVERAGEIFS để ở đầu','k'],['Hoàn toàn giống nhau','x'],['AVERAGEIFS để vùng lấy giá trị ở cuối','x'],['AVERAGEIF không có vùng lấy giá trị','x']]},
+ {q:'Các điều kiện trong COUNTIFS được nối với nhau bằng quan hệ nào?',options:[['VÀ — phải thoả tất cả mới được tính','k'],['HOẶC — thoả một điều kiện là đủ','x'],['Tuỳ Excel quyết định','x'],['Không có quan hệ nào','x']]},
+ {q:'Một bảng so sánh giữa các nhóm bắt buộc phải có thêm cột nào?',options:[['Cỡ mẫu n của từng nhóm','k'],['Ngày lập bảng','x'],['Tên người lập bảng','x'],['Màu sắc của từng nhóm','x']]},
+ {q:'Vì sao một nhóm chỉ có 13 người thì kết luận về nhóm đó kém tin cậy?',options:[['Vì chỉ một người thay đổi cũng đủ làm trung bình của nhóm đổi nhiều','k'],['Vì Excel tính sai với nhóm nhỏ','x'],['Vì nhóm nhỏ luôn có điểm cao hơn','x'],['Vì dữ liệu nhóm nhỏ chắc chắn bị lỗi','x']]},
+ {q:'Muốn tính tỉ lệ phần trăm của một nhóm trong tổng số bạn trả lời, nên chia cho số nào?',options:[['Kết quả COUNT của cột đó','k'],['Luôn chia cho 300','x'],['Số nhóm trong bảng','x'],['Kết quả MAX của cột đó','x']]},
+ {q:'Nhóm A có điểm trung bình cao hơn nhóm B. Kết luận nào là đúng đắn nhất?',options:[['Có một khác biệt giữa hai nhóm, còn nguyên nhân thì cần kiểm tra thêm','k'],['Đặc điểm của nhóm A gây ra điểm cao','x'],['Nhóm B học kém hơn','x'],['Dữ liệu chắc chắn bị sai','x']]},
+ {q:'“Biến thứ ba” trong phân tích dữ liệu nghĩa là gì?',options:[['Một yếu tố khác đi cùng với cả hai bên và có thể là nguyên nhân thật','k'],['Cột thứ ba tính từ trái sang trong bảng','x'],['Điều kiện thứ ba trong COUNTIFS','x'],['Giá trị lớn thứ ba của một cột','x']]},
+ {q:'Hai chuyện đi cùng nhau trong dữ liệu thì kết luận được gì?',options:[['Chỉ kết luận được là chúng đi cùng nhau, chưa kết luận được nguyên nhân','k'],['Cái xảy ra trước gây ra cái xảy ra sau','x'],['Cái có số lớn hơn gây ra cái kia','x'],['Chắc chắn có quan hệ nhân quả','x']]},
+ {q:'Ba câu cần tự hỏi trước khi kết luận từ một bảng so sánh nhóm là gì?',options:[['Nhóm đủ lớn chưa · còn cách giải thích nào khác · chiều nhân quả là chiều nào','k'],['Bảng có đẹp không · có màu không · có biểu đồ không','x'],['Ai lập bảng · lập lúc nào · bằng phần mềm gì','x'],['Có bao nhiêu cột · bao nhiêu hàng · bao nhiêu công thức','x']]},
+ {q:'Một cột được điền bằng cách người trả lời tự đánh giá về bản thân thì cần lưu ý gì?',options:[['Kết quả phản ánh cách họ tự nhìn nhận, chưa chắc phản ánh thực tế','k'],['Luôn chính xác hơn số đo','x'],['Không dùng được để phân tích','x'],['Phải nhân đôi trước khi tính','x']]},
+ {q:'Công thức nào đếm số bạn vừa ngủ dưới 6 giờ vừa có điểm dưới 7?',options:[['=COUNTIFS(B3:B300;"<6";H3:H300;"<7")','k'],['=COUNTIF(B3:B300;"<6";H3:H300;"<7")','x'],['=COUNT(B3:B300;H3:H300)','x'],['=AVERAGEIFS(B3:B300;"<6";H3:H300;"<7")','x']]},
+ {q:'Khi báo cáo kết quả so sánh giữa các nhóm, điều nên làm là gì?',options:[['Ghi kèm cỡ mẫu và nêu ít nhất một cách giải thích khác','k'],['Chỉ ghi nhóm có kết quả cao nhất','x'],['Bỏ những nhóm có kết quả không như mong đợi','x'],['Làm tròn số cho đẹp rồi bỏ cột n','x']]}
+];
+
+/* ================= BÀI KIỂM TRA ================= */
+function startQuiz(){
+  state.quizSet=shuffle(BANK).slice(0,10);state.quizIndex=0;state.answers=[];state.quizChecked=false;
+  document.getElementById('resultArea').classList.add('hidden');
+  document.getElementById('quizArea').classList.remove('hidden');
+  renderQ();
+}
+function renderQ(){
+  const q=state.quizSet[state.quizIndex];
+  q._opts=shuffle(q.options);
+  state.quizChecked=false;
+  document.getElementById('qnum').textContent=`Câu ${state.quizIndex+1}/10`;
+  document.getElementById('qtext').textContent=q.q;
+  const body=document.getElementById('qbody');body.innerHTML='';
+  const fb=document.getElementById('qfeedback');fb.className='feedback hidden';fb.innerHTML='';
+  const next=document.getElementById('quizNext');
+  next.disabled=true;next.textContent=state.quizIndex===9?'Kiểm tra & nộp bài':'Kiểm tra';
+  q._opts.forEach(([txt,key])=>{
+    const b=document.createElement('button');
+    b.className='qOpt';b.textContent=txt;b.dataset.key=key;
+    b.onclick=()=>{if(state.quizChecked)return;[...body.children].forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state.answers[state.quizIndex]=key;next.disabled=false};
+    body.appendChild(b);
+  });
+}
+function correctText(q){const f=q.options.find(o=>o[1]==='k');return f?f[0]:''}
+document.getElementById('quizNext').onclick=()=>{
+  const q=state.quizSet[state.quizIndex],next=document.getElementById('quizNext');
+  if(!state.quizChecked){
+    if(state.answers[state.quizIndex]===undefined)return;
+    const ok=state.answers[state.quizIndex]==='k';state.quizChecked=true;
+    [...document.getElementById('qbody').children].forEach(b=>{
+      if(b.dataset.key==='k')b.classList.add('right');
+      else if(b.classList.contains('selected'))b.classList.add('wrongPick');
+    });
+    const fb=document.getElementById('qfeedback');
+    fb.className='feedback '+(ok?'ok':'bad');
+    fb.innerHTML=ok?'✓ Chính xác.':`✗ Chưa đúng.<div class="answerNote"><strong>Đáp án đúng:</strong> ${esc(correctText(q))}</div>`;
+    if(state.quizIndex===9){finishQuiz();return}
+    next.textContent='Tiếp tục →';next.disabled=false;return;
+  }
+  state.quizIndex++;renderQ();
+};
+function detailedReview(){
+  return state.quizSet.map((q,i)=>{
+    const ok=state.answers[i]==='k';
+    return `<div class="reviewItem ${ok?'good':'miss'}"><strong>${ok?'✓':'✗'} Câu ${i+1}: ${ok?'Đúng':'Chưa đúng'}</strong><span>${esc(q.q)}</span>${ok?'':`<div class="answerNote"><strong>Đáp án đúng:</strong> ${esc(correctText(q))}</div>`}</div>`;
+  }).join('');
+}
+function finishQuiz(){
+  state.score=state.quizSet.reduce((s,q,i)=>s+(state.answers[i]==='k'?1:0),0);
+  document.getElementById('quizArea').classList.add('hidden');
+  const r=document.getElementById('resultArea');r.classList.remove('hidden');
+  const review=`<div class="review">${detailedReview()}</div>`;
+  if(state.score>=8){
+    state.code=`EXCEL3-${new Date().toISOString().slice(0,10).replaceAll('-','')}-${String(Math.floor(Math.random()*9000)+1000)}`;
+    r.innerHTML=`<div class="callout"><strong>Hoàn thành</strong><br>${esc(state.student.name)} · ${esc(state.student.cls)}</div><div class="score">${state.score}/10</div>${review}<div class="btnrow"><button class="btn btnGreen" id="pngBtn">Tải PNG</button><button class="btn btnPrimary" id="pdfBtn">Tải PDF</button><button class="btn btnSecondary" id="retryBtn">Làm lại</button></div><div class="cert"><canvas id="certCanvas" width="1600" height="1000"></canvas></div>`;
+    drawCert();
+    document.getElementById('pngBtn').onclick=downloadPNG;
+    document.getElementById('pdfBtn').onclick=downloadPDF;
+    document.getElementById('retryBtn').onclick=startQuiz;
+  }else{
+    r.innerHTML=`<div class="callout warn"><strong>Kết quả: ${state.score}/10</strong><br>Cần đạt từ 8/10 để nhận minh chứng hoàn thành.</div>${review}<div class="btnrow"><button class="btn btnSecondary" id="reviewBtn">Xem lại các chặng</button><button class="btn btnPrimary" id="retryBtn">Làm lại</button></div>`;
+    document.getElementById('reviewBtn').onclick=()=>showStep(1);
+    document.getElementById('retryBtn').onclick=startQuiz;
+  }
+}
+
+/* ================= MINH CHỨNG ================= */
+function rounded(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function fit(ctx,text,max,start){let s=start;while(s>30){ctx.font=`900 ${s}px Arial,"Segoe UI","Noto Sans",sans-serif`;if(ctx.measureText(text).width<=max)break;s-=2}ctx.font=`900 ${s}px Arial,"Segoe UI","Noto Sans",sans-serif`}
+function drawCert(){
+  const c=document.getElementById('certCanvas');if(!c)return;
+  const ctx=c.getContext('2d'),W=c.width,H=c.height;
+  const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#fbfdff');g.addColorStop(1,'#edf9f5');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#0f9d7a';ctx.lineWidth=10;rounded(ctx,42,42,W-84,H-84,28);ctx.stroke();
+  ctx.strokeStyle='#a6d9cb';ctx.lineWidth=2;rounded(ctx,68,68,W-136,H-136,22);ctx.stroke();
+  ctx.fillStyle='#315efb';ctx.beginPath();ctx.arc(145,145,58,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.font='800 52px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('▦',145,145);
+  ctx.textAlign='left';ctx.fillStyle='#101828';
+  ctx.font='800 27px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('TRƯỜNG THCS & THPT ĐINH THIỆN LÝ',235,132);
+  ctx.fillStyle='#667085';ctx.font='500 22px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('Tin học 8 · Phân tích dữ liệu bằng Excel',235,168);
+  ctx.textAlign='center';ctx.fillStyle='#101828';
+  ctx.font='900 58px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('MINH CHỨNG HOÀN THÀNH',W/2,310);
+  ctx.fillStyle='#667085';ctx.font='500 26px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('Xác nhận học sinh',W/2,382);
+  ctx.fillStyle='#0b7a5f';fit(ctx,state.student.name,W-260,58);ctx.fillText(state.student.name,W/2,472);
+  ctx.fillStyle='#344054';ctx.font='700 29px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText(`Lớp ${state.student.cls}`,W/2,528);
+  ctx.fillStyle='#475467';ctx.font='500 25px Arial,"Segoe UI","Noto Sans",sans-serif';
+  ctx.fillText('đã hoàn thành bài học Đếm và tính có điều kiện',W/2,615);
+  ctx.fillStyle='#0f9d7a';ctx.font='900 40px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText(`Kết quả: ${state.score}/10`,W/2,708);
+  const d=new Date().toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'});
+  ctx.fillStyle='#667085';ctx.font='500 20px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText(`Ngày hoàn thành: ${d} · Mã: ${state.code}`,W/2,790);
+  ctx.fillStyle='#98a2b3';ctx.font='500 17px Arial,"Segoe UI","Noto Sans",sans-serif';ctx.fillText('Minh chứng hoàn thành hoạt động học tập dùng để nộp trên Canvas.',W/2,870);
+}
+function safeName(){return state.student.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_|_$/g,'')}
+function downloadPNG(){drawCert();const a=document.createElement('a');a.href=document.getElementById('certCanvas').toDataURL('image/png');a.download=`Minh_chung_DemCoDieuKien_${safeName()}_${state.student.cls}.png`;a.click()}
+function downloadPDF(){drawCert();if(!window.jspdf){alert('Không tải được PDF. Hãy tải bản PNG.');return}const {jsPDF}=window.jspdf;const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});pdf.addImage(document.getElementById('certCanvas').toDataURL('image/png'),'PNG',0,0,297,210);pdf.save(`Minh_chung_DemCoDieuKien_${safeName()}_${state.student.cls}.pdf`)}
+
+/* ================= KHỞI ĐỘNG ================= */
+document.querySelectorAll('#why1,#why2,#why2b,#why3,#why4,#why4b,#why5,#why5b').forEach(shuffleSelectOptions);
+try{const s=JSON.parse(localStorage.getItem('excelCond3Student')||'null');if(s&&s.name){document.getElementById('studentName').value=s.name;const sel=document.getElementById('studentClass');if([...sel.options].some(o=>o.value===s.cls)){state.student=s;sel.value=s.cls}}}catch(e){}
+updateProgress();
+</script>
+</body></html>
