@@ -72,6 +72,11 @@ input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(49,9
 .task input{text-align:right;font-family:ui-monospace,Consolas,monospace;font-weight:800}
 .task input.good{border-color:var(--green);box-shadow:0 0 0 4px rgba(15,157,122,.12)}
 .task input.wrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
+.task.miss{border-color:#fecdca;background:#fffbfa}
+.hintFx{display:none;margin-top:8px;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;background:#fff7ed;border:1px solid #fed7aa;color:#8a3c05;border-radius:9px;padding:5px 10px;font-size:12.5px;font-weight:800}
+.task.miss .hintFx{display:inline-block}
+.hintFx::before{content:"Gợi ý: ";font-family:inherit}
+select.selWrong{border-color:var(--red);box-shadow:0 0 0 4px rgba(180,35,24,.1)}
 .hintBtn{background:none;border:0;color:var(--blue);font-size:12px;font-weight:850;cursor:pointer;padding:6px 0}
 .hintBox{font-size:13px;color:#475467;background:#f8fafc;border-radius:11px;padding:10px 12px;margin-top:8px;line-height:1.55}
 .dataWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;margin-top:14px}
@@ -138,40 +143,27 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
   <div class="btnrow"><button class="btn btnPrimary" id="startBtn">Bắt đầu →</button></div>
 </section>
 
-<!-- ============ CHẶNG 1 — COUNTIF ============ -->
+<!-- ============ CHẶNG 1 ============ -->
 <section class="section" id="step1">
-  <div class="head"><div class="badge">1</div><div><h2>COUNTIF — đếm có điều kiện</h2><p class="sub">Không đếm cả cột nữa, mà chỉ đếm những bạn thoả một điều kiện.</p></div></div>
+  <div class="head"><div class="badge">1</div><div><h2>COUNTIF — đếm có điều kiện</h2><p class="sub">Chỉ đếm những bạn thoả một điều kiện.</p></div></div>
 
-  <div class="grid2">
-    <div class="card"><h3>COUNT — đếm tất cả</h3><p><span class="fx">=COUNT(B3:B300)</span><br>Trả lời: “có bao nhiêu bạn trả lời câu hỏi này?”</p></div>
-    <div class="card"><h3>COUNTIF — đếm có điều kiện</h3><p><span class="fx">=COUNTIF(B3:B300;"&lt;6")</span><br>Trả lời: “có bao nhiêu bạn ngủ dưới 6 giờ mỗi đêm?”</p></div>
-  </div>
+  <div class="callout blue">Ở Bài 2 em đếm cả một cột. Chặng này em chỉ đếm <strong>phần dữ liệu thoả một điều kiện</strong> — ví dụ “những bạn ngủ dưới 6 giờ mỗi đêm”.<br>Cú pháp thầy đã hướng dẫn trên lớp. Nếu chưa nhớ, cứ thử — làm sai một lần thì gợi ý hiện ra ngay dưới câu hỏi.</div>
 
-  <div class="syntax">=COUNTIF( <span class="rng">B3:B300</span> ; <span class="cond">"&lt;6"</span> )</div>
-  <div class="legend">
-    <span><b style="color:#1e7b45">vùng xét điều kiện</b> — cột chứa dữ liệu cần lọc</span>
-    <span><b style="color:#b42318">điều kiện</b> — luôn nằm trong dấu nháy kép</span>
-  </div>
-
-  <div class="callout warn">
-    <strong>Hai kiểu điều kiện</strong><br>
-    <strong>Điều kiện số:</strong> <span class="fx">"&lt;6"</span> · <span class="fx">"&gt;=8"</span> — dấu so sánh viết liền, cả cụm nằm trong nháy kép.<br>
-    <strong>Điều kiện chữ:</strong> <span class="fx">"TikTok"</span> · <span class="fx">"Đi bộ"</span> — gõ đúng y hệt nội dung trong ô, kể cả dấu tiếng Việt.<br>
-    Gõ sai một dấu thì Excel trả về 0 mà không báo lỗi — giống bẫy COUNT ở Bài 2.
-  </div>
+  <div class="callout warn"><strong>Điều kiện dạng chữ phải khớp chính xác</strong> nội dung trong ô, kể cả dấu tiếng Việt. Gõ lệch một dấu thì Excel trả về 0 mà không báo lỗi gì cả.</div>
 
   <div class="activity">
-    <h3>Thử thách 1 · Đếm bốn nhóm</h3>
-    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>. Gõ công thức vào một ô trống bất kỳ, ví dụ ô N3.</p>
+    <h3>Thử thách 1</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>, vùng hàng 3 → hàng 300. Gõ công thức vào một ô trống bất kỳ rồi chép kết quả sang đây.</p>
     <div class="taskGrid" id="task1">
-      <div class="task"><div class="q"><b>Bao nhiêu bạn ngủ dưới 6 giờ mỗi đêm?</b><span class="fx">=COUNTIF(B3:B300;"&lt;6")</span></div><input data-ans="30" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu bạn ngủ từ 8 giờ trở lên?</b><span class="fx">=COUNTIF(B3:B300;"&gt;=8")</span></div><input data-ans="72" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu bạn dùng TikTok nhiều nhất?</b><span class="fx">=COUNTIF(J3:J300;"TikTok")</span></div><input data-ans="100" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu bạn đi bộ đến trường?</b><span class="fx">=COUNTIF(I3:I300;"Đi bộ")</span></div><input data-ans="13" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn ngủ dưới 6 giờ mỗi đêm?</b><span class="hintFx">=COUNTIF(B3:B300;"&lt;6")</span></div><input data-ans="30" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn ngủ từ 8 giờ trở lên?</b><span class="hintFx">=COUNTIF(B3:B300;"&gt;=8")</span></div><input data-ans="72" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn dùng TikTok nhiều nhất?</b><span class="hintFx">=COUNTIF(J3:J300;"TikTok")</span></div><input data-ans="100" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn đi bộ đến trường?</b><span class="hintFx">=COUNTIF(I3:I300;"Đi bộ")</span></div><input data-ans="13" data-tol="0" placeholder="kết quả"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Vì sao điều kiện số cũng phải nằm trong dấu nháy kép?</div>
       <select id="why1" data-key="b"><option value="">Chọn...</option><option value="a">Vì Excel không đọc được số nếu không có nháy kép</option><option value="b">Vì cả cụm “dấu so sánh + số” được xem như một chuỗi mô tả điều kiện</option><option value="c">Vì nháy kép giúp công thức chạy nhanh hơn</option><option value="d">Không bắt buộc, viết kiểu nào cũng được</option></select>
+
     </div>
     <button class="hintBtn" data-hint="hint1">Cần gợi ý?</button>
     <div class="hintBox hidden" id="hint1">Kết quả ra 0 nghĩa là điều kiện chữ chưa khớp. Cách chắc chắn nhất: bấm vào một ô trong cột đó, copy nguyên văn nội dung rồi dán vào giữa hai dấu nháy.</div>
@@ -180,30 +172,19 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
   </div>
 </section>
 
-<!-- ============ CHẶNG 2 — AVERAGEIF ============ -->
+<!-- ============ CHẶNG 2 ============ -->
 <section class="section" id="step2">
-  <div class="head"><div class="badge">2</div><div><h2>AVERAGEIF — trung bình có điều kiện</h2><p class="sub">Hàm có ba đối số, và đây là chỗ cả lớp hay nhầm nhất.</p></div></div>
+  <div class="head"><div class="badge">2</div><div><h2>AVERAGEIF — trung bình có điều kiện</h2><p class="sub">Nhóm đó có kết quả trung bình bao nhiêu?</p></div></div>
 
-  <div class="syntax">=AVERAGEIF( <span class="rng">B3:B300</span> ; <span class="cond">"&lt;6"</span> ; <span class="val">H3:H300</span> )</div>
-  <div class="legend">
-    <span><b style="color:#1e7b45">vùng xét điều kiện</b> — cột Giờ ngủ</span>
-    <span><b style="color:#b42318">điều kiện</b></span>
-    <span><b style="color:#178b8b">vùng lấy giá trị</b> — cột Điểm TB, nơi lấy số để tính trung bình</span>
-  </div>
-
-  <div class="callout">
-    <strong>Vì sao AVERAGEIF cần ba vùng còn COUNTIF chỉ cần hai?</strong><br>
-    Vì <em>đếm</em> thì đếm ngay trên chính cột đang xét điều kiện. Còn <em>tính trung bình</em> thì xét điều kiện ở cột này
-    nhưng lấy số để tính ở một cột khác.
-  </div>
+  <div class="callout blue">Chặng 1 trả lời “có <em>bao nhiêu bạn</em>”. Chặng này trả lời “nhóm đó có <em>kết quả trung bình</em> bao nhiêu”.<br>Điểm cần chú ý: em <strong>xét điều kiện ở một cột, nhưng lấy số để tính trung bình ở một cột khác</strong>. Vì vậy hàm này cần nhiều hơn một vùng dữ liệu.</div>
 
   <div class="activity">
-    <h3>Thử thách 2 · Điểm trung bình của từng nhóm</h3>
-    <p class="ahint">Vẫn trên sheet <span class="fx">Clean_Data</span>. Nhập kết quả với 2 chữ số thập phân.</p>
+    <h3>Thử thách 2</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>, vùng hàng 3 → hàng 300. Gõ công thức vào một ô trống bất kỳ rồi chép kết quả sang đây.</p>
     <div class="taskGrid" id="task2">
-      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ dưới 6 giờ</b><span class="fx">=AVERAGEIF(B3:B300;"&lt;6";H3:H300)</span></div><input data-ans="5.77" data-tol="0.03" placeholder="ví dụ: 5.77"></div>
-      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ từ 8 giờ trở lên</b><span class="fx">=AVERAGEIF(B3:B300;"&gt;=8";H3:H300)</span></div><input data-ans="8.36" data-tol="0.03" placeholder="ví dụ: 8.36"></div>
-      <div class="task"><div class="q"><b>Giờ tự học TB của nhóm tự đánh giá tập trung Cao</b><span class="fx">=AVERAGEIF(K3:K300;"Cao";E3:E300)</span></div><input data-ans="6.21" data-tol="0.03" placeholder="ví dụ: 6.21"></div>
+      <div class="task"><div class="q"><b>Điểm TB lớp 7 của nhóm ngủ dưới 6 giờ</b><span class="hintFx">=AVERAGEIF(B3:B300;"&lt;6";H3:H300)</span></div><input data-ans="5.77" data-tol="0.03" placeholder="ví dụ: 5.77"></div>
+      <div class="task"><div class="q"><b>Điểm TB lớp 7 của nhóm ngủ từ 8 giờ trở lên</b><span class="hintFx">=AVERAGEIF(B3:B300;"&gt;=8";H3:H300)</span></div><input data-ans="8.36" data-tol="0.03" placeholder="ví dụ: 8.36"></div>
+      <div class="task"><div class="q"><b>Giờ tự học TB của nhóm tự đánh giá tập trung Cao</b><span class="hintFx">=AVERAGEIF(K3:K300;"Cao";E3:E300)</span></div><input data-ans="6.21" data-tol="0.03" placeholder="ví dụ: 6.21"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Hai nhóm ngủ ít và ngủ đủ chênh nhau bao nhiêu điểm?</div>
@@ -211,100 +192,82 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
       <div class="term">Với chênh lệch đó, đã kết luận được “ngủ ít làm điểm thấp” chưa?</div>
       <select id="why2b" data-key="b"><option value="">Chọn...</option><option value="a">Rồi, chênh lệch quá rõ ràng</option><option value="b">Chưa — cần kiểm tra xem có cách giải thích nào khác không</option><option value="c">Chưa — vì dữ liệu chưa được làm sạch</option><option value="d">Không bao giờ kết luận được gì từ dữ liệu</option></select>
+
     </div>
     <button class="hintBtn" data-hint="hint2">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint2">Nếu Excel báo <span class="fx">#DIV/0!</span> thì thường là em đặt sai thứ tự đối số: vùng xét điều kiện phải đứng trước, vùng lấy giá trị đứng cuối.</div>
+    <div class="hintBox hidden" id="hint2">Excel báo <span class="fx">#DIV/0!</span> thường là do em đặt sai thứ tự các vùng: vùng xét điều kiện đứng trước, vùng lấy giá trị đứng sau.</div>
     <div class="feedback" id="fb2"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back2">← Chặng 1</button><button class="btn btnPrimary" id="action2">Kiểm tra</button></div>
   </div>
 </section>
 
-<!-- ============ CHẶNG 3 — SO SÁNH NHÓM ============ -->
+<!-- ============ CHẶNG 3 ============ -->
 <section class="section" id="step3">
-  <div class="head"><div class="badge">3</div><div><h2>So sánh nhóm và cỡ mẫu</h2><p class="sub">Một bảng so sánh thiếu cột n là một bảng chưa đọc được.</p></div></div>
+  <div class="head"><div class="badge">3</div><div><h2>So sánh nhóm và cỡ mẫu</h2><p class="sub">Một con số trung bình chưa nói lên gì nếu không biết nó dựa trên bao nhiêu người.</p></div></div>
 
-  <div class="grid3">
-    <div class="card"><h3>Tên nhóm</h3><p>Nhóm được định nghĩa bằng đúng một điều kiện rõ ràng, ai cũng kiểm tra lại được.</p></div>
-    <div class="card"><h3>Cỡ mẫu n</h3><p>Số bạn trong nhóm, tính bằng COUNTIF. Không có n thì không biết con số kia đáng tin đến đâu.</p></div>
-    <div class="card"><h3>Giá trị so sánh</h3><p>Trung bình của nhóm, tính bằng AVERAGEIF. Làm tròn thống nhất cho mọi nhóm.</p></div>
-  </div>
+  <div class="callout blue">Mỗi nhóm em tính <strong>hai thứ</strong>: kết quả trung bình của nhóm, và <strong>số bạn trong nhóm</strong> — gọi là cỡ mẫu, viết tắt là n.<br>Câu cuối hỏi tỉ lệ phần trăm: số bạn trong nhóm chia cho tổng số bạn <em>có trả lời</em> câu hỏi đó. Em nhập số phần trăm (ví dụ 10.2) hoặc số thập phân đều được.</div>
 
-  <div class="callout blue">
-    <strong>Tỉ lệ phần trăm của một nhóm</strong><br>
-    <span class="fx">=COUNTIF(B3:B300;"&lt;6") / COUNT(B3:B300)</span> rồi định dạng ô kiểu phần trăm.<br>
-    Nhớ chia cho <span class="fx">COUNT</span> chứ không chia cho 298 — vì cột B có 5 ô trống.
-  </div>
+  <div class="callout warn">Tên nhóm “Xe máy (người thân chở)” rất dài và có dấu ngoặc — copy nguyên văn từ một ô trong cột Phương tiện rồi dán vào, đừng gõ tay.</div>
 
   <div class="activity">
-    <h3>Thử thách 3 · Bảng điểm theo phương tiện đến trường</h3>
-    <p class="ahint">Với mỗi nhóm, chạy một <span class="fx">COUNTIF</span> để lấy n và một <span class="fx">AVERAGEIF</span> để lấy điểm TB.</p>
+    <h3>Thử thách 3</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>, vùng hàng 3 → hàng 300. Gõ công thức vào một ô trống bất kỳ rồi chép kết quả sang đây.</p>
     <div class="taskGrid" id="task3">
-      <div class="task"><div class="q"><b>Nhóm “Đi bộ” — điểm TB</b><span class="fx">=AVERAGEIF(I3:I300;"Đi bộ";H3:H300)</span></div><input data-ans="7.82" data-tol="0.03" placeholder="ví dụ: 7.82"></div>
-      <div class="task"><div class="q"><b>Nhóm “Đi bộ” — cỡ mẫu n</b><span class="fx">=COUNTIF(I3:I300;"Đi bộ")</span></div><input data-ans="13" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Nhóm “Xe máy (người thân chở)” — điểm TB</b><span class="fx">=AVERAGEIF(I3:I300;"Xe máy (người thân chở)";H3:H300)</span></div><input data-ans="7.17" data-tol="0.03" placeholder="ví dụ: 7.17"></div>
-      <div class="task"><div class="q"><b>Nhóm “Xe máy (người thân chở)” — cỡ mẫu n</b><span class="fx">=COUNTIF(I3:I300;"Xe máy (người thân chở)")</span></div><input data-ans="103" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Tỉ lệ bạn ngủ dưới 6 giờ (nhập số phần trăm, 1 chữ số thập phân)</b><span class="fx">=COUNTIF(B3:B300;"&lt;6")/COUNT(B3:B300)</span></div><input data-ans="10.2" data-tol="0.3" data-ans2="0.102" data-tol2="0.005" placeholder="ví dụ: 10.2"></div>
+      <div class="task"><div class="q"><b>Nhóm “Đi bộ” — điểm TB lớp 7</b><span class="hintFx">=AVERAGEIF(I3:I300;"Đi bộ";H3:H300)</span></div><input data-ans="7.82" data-tol="0.03" placeholder="ví dụ: 7.82"></div>
+      <div class="task"><div class="q"><b>Nhóm “Đi bộ” — cỡ mẫu n</b><span class="hintFx">=COUNTIF(I3:I300;"Đi bộ")</span></div><input data-ans="13" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Nhóm “Xe máy (người thân chở)” — điểm TB lớp 7</b><span class="hintFx">=AVERAGEIF(I3:I300;"Xe máy (người thân chở)";H3:H300)</span></div><input data-ans="7.17" data-tol="0.03" placeholder="ví dụ: 7.17"></div>
+      <div class="task"><div class="q"><b>Nhóm “Xe máy (người thân chở)” — cỡ mẫu n</b><span class="hintFx">=COUNTIF(I3:I300;"Xe máy (người thân chở)")</span></div><input data-ans="103" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Tỉ lệ bạn ngủ dưới 6 giờ, tính theo phần trăm</b><span class="hintFx">=COUNTIF(B3:B300;"&lt;6")/COUNT(B3:B300)</span></div><input data-ans="10.2" data-tol="0.3" data-ans2="0.102" data-tol2="0.005" placeholder="ví dụ: 10.2"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Nhóm “Đi bộ” có điểm TB cao nhất trong 5 nhóm. Kết luận nào đúng?</div>
       <select id="why3" data-key="c"><option value="">Chọn...</option><option value="a">Đi bộ đến trường giúp học tốt hơn</option><option value="b">Nên khuyên cả khối chuyển sang đi bộ</option><option value="c">Chưa kết luận được: nhóm này chỉ có 13 bạn, một người đổi điểm là cả thứ hạng đổi theo</option><option value="d">Số liệu chắc chắn bị sai vì nhóm quá nhỏ</option></select>
+
     </div>
     <button class="hintBtn" data-hint="hint3">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint3">Tên nhóm “Xe máy (người thân chở)” rất dài và có dấu ngoặc — copy nguyên văn từ một ô trong cột I rồi dán vào giữa hai dấu nháy, đừng gõ tay.</div>
+    <div class="hintBox hidden" id="hint3">Nhớ chia cho số bạn <em>có trả lời</em> câu hỏi giờ ngủ, không chia cho 298 — vì cột đó có 5 ô trống.</div>
     <div class="feedback" id="fb3"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back3">← Chặng 2</button><button class="btn btnPrimary" id="action3">Kiểm tra</button></div>
   </div>
 </section>
 
-<!-- ============ CHẶNG 4 — COUNTIFS / AVERAGEIFS ============ -->
+<!-- ============ CHẶNG 4 ============ -->
 <section class="section" id="step4">
-  <div class="head"><div class="badge">4</div><div><h2>COUNTIFS và AVERAGEIFS</h2><p class="sub">Hai điều kiện cùng lúc — và một cái bẫy về thứ tự đối số.</p></div></div>
+  <div class="head"><div class="badge">4</div><div><h2>Hai điều kiện cùng lúc</h2><p class="sub">Thu hẹp nhóm bằng hai điều kiện — và một cái bẫy về vị trí các vùng.</p></div></div>
 
-  <div class="syntax">=COUNTIFS( <span class="rng">B3:B300</span> ; <span class="cond">"&lt;6"</span> ; <span class="rng">H3:H300</span> ; <span class="cond">"&lt;7"</span> )</div>
-  <div class="syntax">=AVERAGEIFS( <span class="val">H3:H300</span> ; <span class="rng">B3:B300</span> ; <span class="cond">"&gt;=8"</span> ; <span class="rng">C3:C300</span> ; <span class="cond">"&lt;2"</span> )</div>
+  <div class="callout blue">Hai điều kiện được nối với nhau bằng <strong>VÀ</strong>: một bạn phải thoả <em>cả hai</em> thì mới được tính. Muốn thêm điều kiện thứ ba thì viết tiếp một cặp vùng – điều kiện nữa.</div>
 
-  <div class="callout warn">
-    <strong>Cái bẫy của cả bài</strong><br>
-    <span class="fx">AVERAGEIF</span> để vùng lấy giá trị ở <strong>CUỐI</strong>.<br>
-    <span class="fx">AVERAGEIFS</span> để vùng lấy giá trị ở <strong>ĐẦU</strong>.<br>
-    Không có cách nào khác ngoài nhớ. Sai thứ tự thường ra <span class="fx">#DIV/0!</span> chứ không ra kết quả sai — đó là tin tốt.
-  </div>
-
-  <div class="callout">
-    Các điều kiện được nối bằng <strong>VÀ</strong>: một bạn phải thoả tất cả điều kiện thì mới được tính.
-  </div>
+  <div class="callout warn"><strong>Cái bẫy của cả bài:</strong> hàm tính trung bình có <em>nhiều</em> điều kiện đặt vùng lấy giá trị ở vị trí khác hẳn hàm <em>một</em> điều kiện. Đặt sai thường ra <span class="fx">#DIV/0!</span> chứ không ra kết quả sai — đó là tin tốt, vì em biết ngay là mình nhầm.</div>
 
   <div class="activity">
-    <h3>Thử thách 4 · Hai điều kiện cùng lúc</h3>
+    <h3>Thử thách 4</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>, vùng hàng 3 → hàng 300. Gõ công thức vào một ô trống bất kỳ rồi chép kết quả sang đây.</p>
     <div class="taskGrid" id="task4">
-      <div class="task"><div class="q"><b>Bao nhiêu bạn vừa ngủ dưới 6 giờ vừa có điểm dưới 7?</b><span class="fx">=COUNTIFS(B3:B300;"&lt;6";H3:H300;"&lt;7")</span></div><input data-ans="26" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Bao nhiêu bạn vừa ngủ từ 8 giờ vừa có điểm từ 8?</b><span class="fx">=COUNTIFS(B3:B300;"&gt;=8";H3:H300;"&gt;=8")</span></div><input data-ans="45" data-tol="0" placeholder="kết quả"></div>
-      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ đủ VÀ ít dùng thiết bị</b><span class="fx">=AVERAGEIFS(H3:H300;B3:B300;"&gt;=8";C3:C300;"&lt;2")</span></div><input data-ans="8.36" data-tol="0.03" placeholder="ví dụ: 8.36"></div>
-      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ ít VÀ nhiều thiết bị</b><span class="fx">=AVERAGEIFS(H3:H300;B3:B300;"&lt;6";C3:C300;"&gt;=4")</span></div><input data-ans="5.79" data-tol="0.03" placeholder="ví dụ: 5.79"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn vừa ngủ dưới 6 giờ vừa có điểm dưới 7?</b><span class="hintFx">=COUNTIFS(B3:B300;"&lt;6";H3:H300;"&lt;7")</span></div><input data-ans="26" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Bao nhiêu bạn vừa ngủ từ 8 giờ vừa có điểm từ 8?</b><span class="hintFx">=COUNTIFS(B3:B300;"&gt;=8";H3:H300;"&gt;=8")</span></div><input data-ans="45" data-tol="0" placeholder="kết quả"></div>
+      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ đủ VÀ dùng thiết bị dưới 2 giờ</b><span class="hintFx">=AVERAGEIFS(H3:H300;B3:B300;"&gt;=8";C3:C300;"&lt;2")</span></div><input data-ans="8.36" data-tol="0.03" placeholder="ví dụ: 8.36"></div>
+      <div class="task"><div class="q"><b>Điểm TB của nhóm ngủ ít VÀ dùng thiết bị từ 4 giờ</b><span class="hintFx">=AVERAGEIFS(H3:H300;B3:B300;"&lt;6";C3:C300;"&gt;=4")</span></div><input data-ans="5.79" data-tol="0.03" placeholder="ví dụ: 5.79"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
-      <div class="term">Trong <span class="fx">AVERAGEIFS</span>, vùng lấy giá trị đứng ở đâu?</div>
-      <select id="why4" data-key="a"><option value="">Chọn...</option><option value="a">Đứng đầu tiên, trước mọi cặp vùng – điều kiện</option><option value="b">Đứng cuối cùng, giống AVERAGEIF</option><option value="c">Đứng giữa hai cặp điều kiện</option><option value="d">Không cần ghi, Excel tự hiểu</option></select>
+      <div class="term">Trong hàm tính trung bình có nhiều điều kiện, vùng lấy giá trị đứng ở đâu?</div>
+      <select id="why4" data-key="a"><option value="">Chọn...</option><option value="a">Đứng đầu tiên, trước mọi cặp vùng – điều kiện</option><option value="b">Đứng cuối cùng, giống hàm một điều kiện</option><option value="c">Đứng giữa hai cặp điều kiện</option><option value="d">Không cần ghi, Excel tự hiểu</option></select>
 
       <div class="term">26 trên 30 bạn ngủ ít có điểm dưới 7. Con số này cho biết gì?</div>
       <select id="why4b" data-key="b"><option value="">Chọn...</option><option value="a">Chắc chắn thiếu ngủ làm điểm thấp</option><option value="b">Trong nhóm ngủ ít, phần lớn có điểm dưới 7 — nhưng vẫn chưa cho biết nguyên nhân</option><option value="c">30 bạn đó học kém nhất khối</option><option value="d">Ngủ đủ thì chắc chắn được điểm trên 7</option></select>
+
     </div>
     <button class="hintBtn" data-hint="hint4">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint4">Excel báo <span class="fx">#DIV/0!</span> nghĩa là không có bạn nào thoả cả hai điều kiện, hoặc em đặt sai thứ tự đối số của AVERAGEIFS.</div>
+    <div class="hintBox hidden" id="hint4">Báo <span class="fx">#DIV/0!</span> nghĩa là không có bạn nào thoả cả hai điều kiện, hoặc em đặt sai vị trí vùng lấy giá trị.</div>
     <div class="feedback" id="fb4"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back4">← Chặng 3</button><button class="btn btnPrimary" id="action4">Kiểm tra</button></div>
   </div>
 </section>
 
-<!-- ============ CHẶNG 5 — BIẾN THỨ BA ============ -->
+<!-- ============ CHẶNG 5 ============ -->
 <section class="section" id="step5">
-  <div class="head"><div class="badge">5</div><div><h2>Biến thứ ba</h2><p class="sub">Chặng quan trọng nhất — và chỉ cần đúng hai công thức.</p></div></div>
+  <div class="head"><div class="badge">5</div><div><h2>Biến thứ ba</h2><p class="sub">Chặng quan trọng nhất — và chỉ cần đúng hai phép tính.</p></div></div>
 
-  <div class="callout blue">
-    <strong>Việc cần làm</strong><br>
-    Chạy lại đúng hai công thức <span class="fx">AVERAGEIF</span> của chặng 2, nhưng đổi <strong>vùng lấy giá trị</strong>
-    từ cột H (điểm) sang cột <strong>C — Giờ dùng thiết bị điện tử</strong>. Hai đối số đầu giữ nguyên.
-  </div>
+  <div class="callout blue">Vẫn đúng <strong>hai nhóm của chặng 2</strong>: nhóm ngủ dưới 6 giờ và nhóm ngủ từ 8 giờ. Nhưng lần này em không lấy số ở cột Điểm, mà lấy số ở cột <strong>Giờ dùng thiết bị điện tử</strong>.<br>Điền nốt hai ô dấu hỏi trong bảng dưới đây.</div>
 
   <div class="dataWrap">
     <table class="dataTable">
@@ -319,10 +282,11 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
   </div>
 
   <div class="activity">
-    <h3>Thử thách 5 · Điền nốt cột cuối</h3>
+    <h3>Thử thách 5</h3>
+    <p class="ahint">Làm trên sheet <span class="fx">Clean_Data</span>, vùng hàng 3 → hàng 300. Gõ công thức vào một ô trống bất kỳ rồi chép kết quả sang đây.</p>
     <div class="taskGrid" id="task5">
-      <div class="task"><div class="q"><b>Giờ dùng thiết bị TB của nhóm ngủ dưới 6 giờ</b><span class="fx">=AVERAGEIF(B3:B300;"&lt;6";C3:C300)</span></div><input data-ans="4.65" data-tol="0.03" placeholder="ví dụ: 4.65"></div>
-      <div class="task"><div class="q"><b>Giờ dùng thiết bị TB của nhóm ngủ từ 8 giờ</b><span class="fx">=AVERAGEIF(B3:B300;"&gt;=8";C3:C300)</span></div><input data-ans="2.26" data-tol="0.03" placeholder="ví dụ: 2.26"></div>
+      <div class="task"><div class="q"><b>Giờ dùng thiết bị TB của nhóm ngủ dưới 6 giờ</b><span class="hintFx">=AVERAGEIF(B3:B300;"&lt;6";C3:C300)</span></div><input data-ans="4.65" data-tol="0.03" placeholder="ví dụ: 4.65"></div>
+      <div class="task"><div class="q"><b>Giờ dùng thiết bị TB của nhóm ngủ từ 8 giờ trở lên</b><span class="hintFx">=AVERAGEIF(B3:B300;"&gt;=8";C3:C300)</span></div><input data-ans="2.26" data-tol="0.03" placeholder="ví dụ: 2.26"></div>
     </div>
     <div class="matchGrid" style="margin-top:14px">
       <div class="term">Hai con số vừa tính cho thấy điều gì?</div>
@@ -330,9 +294,10 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
       <div class="term">Vậy kết luận đúng nhất về “ngủ ít làm điểm thấp” là gì?</div>
       <select id="why5b" data-key="c"><option value="">Chọn...</option><option value="a">Đúng — dữ liệu đã chứng minh rõ ràng</option><option value="b">Sai — thiếu ngủ không ảnh hưởng gì đến điểm</option><option value="c">Chưa kết luận được: điểm thấp có thể do thiếu ngủ, do dùng thiết bị nhiều, hoặc do cả hai đi cùng một nguyên nhân khác</option><option value="d">Chỉ cần xoá nhóm ngủ ít khỏi dữ liệu là hết vấn đề</option></select>
+
     </div>
     <button class="hintBtn" data-hint="hint5">Cần gợi ý?</button>
-    <div class="hintBox hidden" id="hint5">Copy lại công thức của chặng 2 rồi chỉ sửa đúng một chỗ: <span class="fx">H3:H300</span> thành <span class="fx">C3:C300</span>.</div>
+    <div class="hintBox hidden" id="hint5">Lấy lại đúng hai phép tính của chặng 2 rồi chỉ đổi một chỗ: cột lấy giá trị chuyển từ cột Điểm sang cột Giờ dùng thiết bị.</div>
     <div class="feedback" id="fb5"></div>
     <div class="btnrow"><button class="btn btnSecondary" id="back5">← Chặng 4</button><button class="btn btnPrimary" id="action5">Kiểm tra</button></div>
   </div>
@@ -384,9 +349,32 @@ function checkTasks(container){
     const ok=inputOk(inp);
     inp.classList.toggle('good',ok);
     inp.classList.toggle('wrong',!ok);
+    const row=inp.closest('.task');
+    if(row)row.classList.toggle('miss',!ok);
     if(!ok)wrong++;
   });
   return {ok:wrong===0,wrong};
+}
+function checkSels(ids){
+  let wrong=0,empty=0;
+  ids.forEach(id=>{
+    const s=document.getElementById(id);
+    if(!s.value){empty++;s.classList.remove('selWrong');return}
+    const ok=s.value===s.dataset.key;
+    s.classList.toggle('selWrong',!ok);
+    if(!ok)wrong++;
+  });
+  return {wrong,empty};
+}
+function stageCheck(taskId,selIds,okMsg){
+  const t=checkTasks(document.getElementById(taskId));
+  const c=checkSels(selIds);
+  if(c.empty)return{ok:false,msg:`Còn ${c.empty} câu chọn chưa trả lời.`};
+  if(t.ok&&!c.wrong)return{ok:true,msg:okMsg};
+  const parts=[];
+  if(!t.ok)parts.push(`${t.wrong} ô kết quả`);
+  if(c.wrong)parts.push(`${c.wrong} câu chọn`);
+  return{ok:false,msg:`✗ Chỗ tô đỏ chưa đúng (${parts.join(' và ')}). Gợi ý đã hiện ra dưới câu hỏi sai.`};
 }
 function selOk(id){const s=document.getElementById(id);return s.value===s.dataset.key}
 function selsFilled(ids){return ids.every(i=>document.getElementById(i).value)}
@@ -437,48 +425,20 @@ function setStageAction(btnId,fbId,nextStep,validator){
 }
 
 /* ================= 5 CHẶNG ================= */
-setStageAction('action1','fb1',2,()=>{
-  if(!document.getElementById('why1').value)return{ok:false,msg:'Chưa chọn câu giải thích ở cuối.'};
-  const t=checkTasks(document.getElementById('task1'));
-  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Ra 0 nghĩa là điều kiện chữ chưa khớp — copy nguyên văn từ ô trong cột đó.`};
-  if(!selOk('why1'))return{ok:false,msg:'✗ Bốn kết quả đã đúng, phần giải thích chưa đúng. Excel đọc "<6" như một chuỗi mô tả điều kiện.'};
-  return{ok:true,msg:'✓ Chính xác. Nhớ con số 13 của nhóm “Đi bộ” — chặng 3 sẽ quay lại với nó.'};
-});
+setStageAction('action1','fb1',2,()=>stageCheck('task1',['why1'],
+  '✓ Chính xác. Nhớ con số 13 của nhóm “Đi bộ” — chặng 3 sẽ quay lại với nó.'));
 
-setStageAction('action2','fb2',3,()=>{
-  if(!selsFilled(['why2','why2b']))return{ok:false,msg:'Chưa chọn đủ hai câu ở cuối.'};
-  const t=checkTasks(document.getElementById('task2'));
-  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Kiểm tra thứ tự ba đối số: vùng xét điều kiện, điều kiện, vùng lấy giá trị.`};
-  if(!selOk('why2'))return{ok:false,msg:'✗ Lấy 8.36 trừ 5.77 xem được bao nhiêu.'};
-  if(!selOk('why2b'))return{ok:false,msg:'✗ Chênh lệch rõ thật, nhưng rõ chưa đồng nghĩa với đã tìm ra nguyên nhân.'};
-  return{ok:true,msg:'✓ Chính xác. Giữ hai con số 5.77 và 8.36 trong đầu — chặng 5 sẽ cần tới.'};
-});
+setStageAction('action2','fb2',3,()=>stageCheck('task2',['why2','why2b'],
+  '✓ Chính xác. Giữ hai con số 5.77 và 8.36 trong đầu — chặng 5 sẽ cần tới.'));
 
-setStageAction('action3','fb3',4,()=>{
-  if(!document.getElementById('why3').value)return{ok:false,msg:'Chưa chọn câu kết luận ở cuối.'};
-  const t=checkTasks(document.getElementById('task3'));
-  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Tên nhóm dài thì copy nguyên văn từ cột I, đừng gõ tay.`};
-  if(!selOk('why3'))return{ok:false,msg:'✗ So cỡ mẫu của hai nhóm: 13 bạn so với 103 bạn.'};
-  return{ok:true,msg:'✓ Chính xác. Một bảng so sánh nhóm mà thiếu cột n thì người đọc không biết tin đến đâu.'};
-});
+setStageAction('action3','fb3',4,()=>stageCheck('task3',['why3'],
+  '✓ Chính xác. Một bảng so sánh nhóm mà thiếu cỡ mẫu thì người đọc không biết tin đến đâu.'));
 
-setStageAction('action4','fb4',5,()=>{
-  if(!selsFilled(['why4','why4b']))return{ok:false,msg:'Chưa chọn đủ hai câu ở cuối.'};
-  const t=checkTasks(document.getElementById('task4'));
-  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Báo #DIV/0! thường là do sai thứ tự đối số của AVERAGEIFS.`};
-  if(!selOk('why4'))return{ok:false,msg:'✗ Xem lại cú pháp AVERAGEIFS ở đầu chặng.'};
-  if(!selOk('why4b'))return{ok:false,msg:'✗ Con số đó mô tả nhóm, nhưng chưa nói được nguyên nhân.'};
-  return{ok:true,msg:'✓ Chính xác. Bằng chứng càng lúc càng mạnh — nhưng vẫn chưa đủ để kết luận. Sang chặng 5.'};
-});
+setStageAction('action4','fb4',5,()=>stageCheck('task4',['why4','why4b'],
+  '✓ Chính xác. Bằng chứng càng lúc càng mạnh — nhưng vẫn chưa đủ để kết luận. Sang chặng 5.'));
 
-setStageAction('action5','fb5',6,()=>{
-  if(!selsFilled(['why5','why5b']))return{ok:false,msg:'Chưa chọn đủ hai câu kết luận ở cuối.'};
-  const t=checkTasks(document.getElementById('task5'));
-  if(!t.ok)return{ok:false,msg:`✗ Còn ${t.wrong} kết quả chưa đúng (ô viền đỏ). Chỉ đổi đối số thứ ba từ H3:H300 sang C3:C300.`};
-  if(!selOk('why5'))return{ok:false,msg:'✗ So 4.65 với 2.26 — gấp mấy lần?'};
-  if(!selOk('why5b'))return{ok:false,msg:'✗ Xem lại: có ít nhất hai cách giải thích cho cùng một khác biệt.'};
-  return{ok:true,msg:'✓ Chính xác. Hai chuyện đi cùng nhau chưa đủ để nói cái này gây ra cái kia. Sẵn sàng cho bài kiểm tra cuối.'};
-});
+setStageAction('action5','fb5',6,()=>stageCheck('task5',['why5','why5b'],
+  '✓ Chính xác. Hai chuyện đi cùng nhau chưa đủ để nói cái này gây ra cái kia. Sẵn sàng cho bài kiểm tra cuối.'));
 
 /* ================= NGÂN HÀNG CÂU HỎI ================= */
 const BANK=[
