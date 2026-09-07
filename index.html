@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Biến thứ ba – Đếm và tính có điều kiện</title>
+<title>Yếu tố thứ ba – Đếm và tính có điều kiện</title>
 <meta name="description" content="Bài học tương tác lớp 8: COUNTIF, AVERAGEIF, COUNTIFS, AVERAGEIFS và cách đọc một khác biệt giữa hai nhóm.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -109,7 +109,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 </head>
 <body>
 <div class="top"><div class="wrap topin">
-  <div class="brand"><div class="logo">▦</div><div>Biến thứ ba · Đếm và tính có điều kiện</div></div>
+  <div class="brand"><div class="logo">▦</div><div>Yếu tố thứ ba · Đếm và tính có điều kiện</div></div>
   <div class="pbar"><div class="pfill" id="pfill"></div></div>
   <div class="pmeta"><span id="plabel">Bắt đầu</span><span id="miniStudent">Chưa nhập thông tin</span></div>
 </div></div>
@@ -117,7 +117,7 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 <main class="wrap">
 <section class="hero">
   <span class="eyebrow">TIN HỌC 8 · BÀI 3</span>
-  <h1>Biến thứ ba</h1>
+  <h1>Yếu tố thứ ba</h1>
   <p class="lead">5 chặng: học cách đếm và tính điểm trung bình cho riêng một nhóm bằng COUNTIF và AVERAGEIF. Cuối bài em sẽ thấy vì sao hai nhóm chênh nhau rất rõ mà vẫn chưa kết luận được gì.</p>
 </section>
 
@@ -265,9 +265,9 @@ footer{padding:26px 0 50px;color:var(--muted);font-size:13px;text-align:center}
 
 <!-- ============ CHẶNG 5 ============ -->
 <section class="section" id="step5">
-  <div class="head"><div class="badge">5</div><div><h2>Biến thứ ba</h2><p class="sub">Chặng quan trọng nhất — và chỉ cần đúng hai phép tính.</p></div></div>
+  <div class="head"><div class="badge">5</div><div><h2>Yếu tố thứ ba</h2><p class="sub">Chặng quan trọng nhất — và chỉ cần đúng hai phép tính.</p></div></div>
 
-  <div class="callout blue">Vẫn đúng <strong>hai nhóm của chặng 2</strong>: nhóm ngủ dưới 6 giờ và nhóm ngủ từ 8 giờ. Nhưng lần này em không lấy số ở cột Điểm, mà lấy số ở cột <strong>Giờ dùng thiết bị điện tử</strong>.<br>Điền nốt hai ô dấu hỏi trong bảng dưới đây.</div>
+  <div class="callout blue">Yếu tố ở đây chính là một <em>biến</em> — một cột dữ liệu, như em đã học ở Bài 1.<br>Vẫn đúng <strong>hai nhóm của chặng 2</strong>: nhóm ngủ dưới 6 giờ và nhóm ngủ từ 8 giờ. Nhưng lần này em không lấy số ở cột Điểm, mà lấy số ở cột <strong>Giờ dùng thiết bị điện tử</strong>.<br>Điền nốt hai ô dấu hỏi trong bảng dưới đây.</div>
 
   <div class="dataWrap">
     <table class="dataTable">
@@ -438,7 +438,7 @@ setStageAction('action4','fb4',5,()=>stageCheck('task4',['why4','why4b'],
   '✓ Chính xác. Bằng chứng càng lúc càng mạnh — nhưng vẫn chưa đủ để kết luận. Sang chặng 5.'));
 
 setStageAction('action5','fb5',6,()=>stageCheck('task5',['why5','why5b'],
-  '✓ Chính xác. Hai chuyện đi cùng nhau chưa đủ để nói cái này gây ra cái kia. Sẵn sàng cho bài kiểm tra cuối.'));
+  '✓ Chính xác. Đi cùng nhau chưa chắc là nguyên nhân – kết quả. Sẵn sàng cho bài kiểm tra cuối.'));
 
 /* ================= NGÂN HÀNG CÂU HỎI ================= */
 const BANK=[
@@ -456,8 +456,8 @@ const BANK=[
  {q:'Vì sao nhóm chỉ có 13 bạn thì kết luận về nhóm đó khó tin?',options:[['Vì chỉ một bạn đổi điểm là trung bình của nhóm đã đổi nhiều','k'],['Vì Excel tính sai với nhóm nhỏ','x'],['Vì nhóm nhỏ luôn có điểm cao hơn','x'],['Vì dữ liệu nhóm nhỏ chắc chắn bị lỗi','x']]},
  {q:'Muốn tính tỉ lệ phần trăm của một nhóm trong tổng số bạn trả lời, nên chia cho số nào?',options:[['Kết quả COUNT của cột đó','k'],['Luôn chia cho 300','x'],['Số nhóm trong bảng','x'],['Kết quả MAX của cột đó','x']]},
  {q:'Nhóm A có điểm trung bình cao hơn nhóm B. Kết luận nào đúng nhất?',options:[['Hai nhóm có khác nhau, còn vì sao khác thì phải kiểm tra thêm','k'],['Đặc điểm của nhóm A gây ra điểm cao','x'],['Nhóm B học kém hơn','x'],['Dữ liệu chắc chắn bị sai','x']]},
- {q:'“Biến thứ ba” trong phân tích dữ liệu nghĩa là gì?',options:[['Một điều khác đi cùng cả hai nhóm và có thể mới là lý do thật','k'],['Cột thứ ba tính từ trái sang trong bảng','x'],['Điều kiện thứ ba trong COUNTIFS','x'],['Giá trị lớn thứ ba của một cột','x']]},
- {q:'Hai chuyện đi cùng nhau trong dữ liệu thì kết luận được gì?',options:[['Chỉ kết luận được là chúng đi cùng nhau, chưa kết luận được nguyên nhân','k'],['Cái xảy ra trước gây ra cái xảy ra sau','x'],['Cái có số lớn hơn gây ra cái kia','x'],['Chắc chắn có quan hệ nhân quả','x']]},
+ {q:'“Yếu tố thứ ba” trong phân tích dữ liệu nghĩa là gì?',options:[['Một điều khác đi cùng cả hai nhóm và có thể mới là lý do thật','k'],['Cột thứ ba tính từ trái sang trong bảng','x'],['Điều kiện thứ ba trong COUNTIFS','x'],['Giá trị lớn thứ ba của một cột','x']]},
+ {q:'Hai cột số đi cùng nhau thì kết luận được gì?',options:[['Chỉ biết chúng đi cùng nhau, chưa biết cái nào là nguyên nhân','k'],['Cái xảy ra trước gây ra cái xảy ra sau','x'],['Cái có số lớn hơn gây ra cái kia','x'],['Chắc chắn có quan hệ nhân quả','x']]},
  {q:'Trước khi kết luận từ một bảng so sánh nhóm, cần tự hỏi ba câu nào?',options:[['Nhóm đủ đông chưa · còn lý do nào khác không · cái nào có trước cái nào','k'],['Bảng có đẹp không · có màu không · có biểu đồ không','x'],['Ai lập bảng · lập lúc nào · bằng phần mềm gì','x'],['Có bao nhiêu cột · bao nhiêu hàng · bao nhiêu công thức','x']]},
  {q:'Một cột do chính người trả lời tự chấm cho mình thì cần lưu ý gì?',options:[['Đó là cách bạn ấy tự thấy về mình, chưa chắc đúng với thực tế','k'],['Luôn chính xác hơn số đo','x'],['Không dùng được để phân tích','x'],['Phải nhân đôi trước khi tính','x']]},
  {q:'Công thức nào đếm số bạn vừa ngủ dưới 6 giờ vừa có điểm dưới 7?',options:[['=COUNTIFS(B3:B300;"<6";H3:H300;"<7")','k'],['=COUNTIF(B3:B300;"<6";H3:H300;"<7")','x'],['=COUNT(B3:B300;H3:H300)','x'],['=AVERAGEIFS(B3:B300;"<6";H3:H300;"<7")','x']]},
@@ -525,7 +525,7 @@ function finishQuiz(){
     document.getElementById('pdfBtn').onclick=downloadPDF;
     document.getElementById('retryBtn').onclick=startQuiz;
   }else{
-    r.innerHTML=`<div class="callout warn"><strong>Kết quả: ${state.score}/10</strong><br>Cần đạt từ 8/10 để nhận minh chứng hoàn thành.</div>${review}<div class="btnrow"><button class="btn btnSecondary" id="reviewBtn">Xem lại các chặng</button><button class="btn btnPrimary" id="retryBtn">Làm lại</button></div>`;
+    r.innerHTML=`<div class="callout warn"><strong>Kết quả: ${state.score}/10</strong><br>Cần đúng từ 8/10 mới nhận được giấy chứng nhận.</div>${review}<div class="btnrow"><button class="btn btnSecondary" id="reviewBtn">Xem lại các chặng</button><button class="btn btnPrimary" id="retryBtn">Làm lại</button></div>`;
     document.getElementById('reviewBtn').onclick=()=>showStep(1);
     document.getElementById('retryBtn').onclick=startQuiz;
   }

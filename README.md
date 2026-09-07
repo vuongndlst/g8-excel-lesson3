@@ -1,4 +1,4 @@
-# Biến thứ ba – Đếm và tính có điều kiện
+# Yếu tố thứ ba – Đếm và tính có điều kiện
 
 Website tĩnh dành cho GitHub Pages. Bài 3 của chuỗi Excel & Phân tích dữ liệu, khối 8.
 
@@ -22,7 +22,7 @@ Các cột dùng trong bài: `B` giờ ngủ · `C` giờ thiết bị · `E` gi
 - Chặng 2: AVERAGEIF – trung bình có điều kiện, ba đối số
 - Chặng 3: So sánh nhóm và cỡ mẫu, tỉ lệ phần trăm
 - Chặng 4: COUNTIFS và AVERAGEIFS – hai điều kiện, bẫy thứ tự đối số
-- Chặng 5: Biến thứ ba – vì sao chưa kết luận được
+- Chặng 5: Yếu tố thứ ba – vì sao chưa kết luận được
 - Kiểm tra cuối: 10 câu ngẫu nhiên rút từ ngân hàng 20 câu, đạt 8/10 để tải minh chứng PNG/PDF
 
 ## Đáp án các chặng (dành cho giáo viên)
